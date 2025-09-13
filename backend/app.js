@@ -12,13 +12,22 @@ import connect from "./db/connect.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import helmet from "helmet";
+import rateLimiter from "express-rate-limit";
+import xss from "xss-clean";
+import mongoSanitizer from "express-mongo-sanitize";
 
+const app = express();
 // middleware
 import errorHandlerMiddlware from "./middleware/errorHandlerMiddleware.js";
 import notFoundMiddleWare from "./errors/not-found.js";
 
 dotenv.config();
-const app = express();
+app.set("trust proxy", 1);
+app.use(rateLimiter({ windowMs: 15 * 60 * 1000, max: 60 }));
+app.use(helmet());
+app.use(xss());
+app.use(mongoSanitizer());
 app.use(express.json({ type: "*/*" }));
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(
