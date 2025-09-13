@@ -3,7 +3,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import React from "react";
 import { FaBars } from "react-icons/fa";
 import { Button } from "./ui/button";
 import { links } from "@/utils/links";

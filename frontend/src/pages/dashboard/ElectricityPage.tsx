@@ -13,10 +13,8 @@ import {
 } from "@/features/electricity/electricitySlice";
 import type { AppDispatch, RootState } from "@/Store";
 import { ElectricProvider } from "@/utils/links";
-import type { dataInitialState } from "@/utils/types";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "sonner";
 
 const ElectricityPage = () => {
   const {

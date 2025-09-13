@@ -6,13 +6,8 @@ import {
   setUserToLocalStorage,
 } from "@/utils/localStorage";
 import type { registerData, User, userInitialState } from "@/utils/types";
-import {
-  createAsyncThunk,
-  createSlice,
-  type PayloadAction,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { isAxiosError } from "axios";
-import { Navigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export type ApiError = {
@@ -73,7 +68,7 @@ export const registerUser = createAsyncThunk<
 
 export const logoutUser = createAsyncThunk<string, {}, { state: RootState }>(
   "logoutUser",
-  async (data, thunkApi) => {
+  async (_data, thunkApi) => {
     try {
       const resp = await axios.post(
         `${url}/api/v1/auth/logout`,
@@ -121,7 +116,7 @@ const userSlice = createSlice({
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(logoutUser.fulfilled, (state) => {
+      .addCase(logoutUser.fulfilled, () => {
         removeUserFromLocalStorage();
         return initialState;
       })

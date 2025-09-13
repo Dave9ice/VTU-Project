@@ -5,12 +5,7 @@ import { loginUser } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 type loginState = {
@@ -20,7 +15,7 @@ type loginState = {
 
 const LoginPage = () => {
   const [values, setValues] = useState<loginState>({ email: "", password: "" });
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, _setSearchParams] = useSearchParams();
 
   const registermsg = searchParams.get("msg");
   const dispatch = useDispatch<AppDispatch>();

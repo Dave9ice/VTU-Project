@@ -91,7 +91,7 @@ const electricitySlice = createSlice({
   name: "Electricity",
   initialState,
   reducers: {
-    clearState: (state) => {
+    clearState: () => {
       return initialState;
     },
     handleChange: <K extends keyof electricityInitialState>(

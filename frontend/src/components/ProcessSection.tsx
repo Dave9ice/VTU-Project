@@ -1,7 +1,6 @@
-import React from "react";
 import { alignment } from "./Navbar";
 import { IoMdPersonAdd } from "react-icons/io";
-import { FaCreditCard, FaRegSmileWink, FaSmileWink } from "react-icons/fa";
+import { FaCreditCard, FaSmileWink } from "react-icons/fa";
 import { Card, CardContent, CardHeader } from "./ui/card";
 const ProcessSection = () => {
   return (

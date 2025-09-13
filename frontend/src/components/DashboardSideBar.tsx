@@ -1,10 +1,8 @@
-import React from "react";
 import DashboardLink from "./DashboardLink";
 import { FaTachometerAlt, FaWifi, FaLaptop } from "react-icons/fa";
 import { FiPhoneCall } from "react-icons/fi";
 import { FaDroplet } from "react-icons/fa6";
 import { TfiWrite } from "react-icons/tfi";
-import { Separator } from "./ui/separator";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/Store";
 import { MdCancel } from "react-icons/md";

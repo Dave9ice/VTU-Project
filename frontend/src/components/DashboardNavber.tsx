@@ -1,4 +1,3 @@
-import React from "react";
 import { FaBars } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { Button } from "./ui/button";
@@ -14,9 +13,7 @@ import type { AppDispatch, RootState } from "@/Store";
 import { logoutUser, toggleSidebar } from "@/features/user/userSlice";
 
 const DashboardNavber = () => {
-  const { showSideBar, user, isLoading } = useSelector(
-    (store: RootState) => store.user
-  );
+  const { user, isLoading } = useSelector((store: RootState) => store.user);
   const dispatch = useDispatch<AppDispatch>();
 
   const logout = () => {

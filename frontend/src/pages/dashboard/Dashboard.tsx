@@ -1,5 +1,4 @@
 import DashboardCard from "@/components/DashboardCard";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { TbHistory } from "react-icons/tb";
 import { FiPhoneCall } from "react-icons/fi";
@@ -7,7 +6,6 @@ import { FaWifi, FaLaptop } from "react-icons/fa";
 import { FaDroplet } from "react-icons/fa6";
 import { TfiWrite } from "react-icons/tfi";
 
-import React from "react";
 import DashboardModal from "@/components/DashboardModal";
 
 const Dashboard = () => {

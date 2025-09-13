@@ -33,7 +33,7 @@ export const fetchDataProvider = createAsyncThunk<
   string[],
   null,
   { state: RootState }
->("fetchProvider", async (data, thunkApi) => {
+>("fetchProvider", async (_data, thunkApi) => {
   try {
     const resp = await axios.get(`${url}/api/v1/data/`, {
       withCredentials: true,
@@ -113,7 +113,7 @@ const dataSlice = createSlice({
       const amount = passedValue.split("#").pop();
       state.amount = amount;
     },
-    clearDataState: (state: dataInitialState) => {
+    clearDataState: (_state: dataInitialState) => {
       return initialState;
     },
   },
@@ -149,7 +149,7 @@ const dataSlice = createSlice({
       .addCase(buyData.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(buyData.fulfilled, (state, action) => {
+      .addCase(buyData.fulfilled, (state) => {
         state.isLoading = false;
         toast("successs");
       })

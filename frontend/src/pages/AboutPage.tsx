@@ -1,7 +1,6 @@
 import BreadCrumps from "@/components/BreadCrumps";
 import { alignment } from "@/components/Navbar";
 import AboutImg from "../assets/images/about-img.png";
-import React from "react";
 
 const AboutPage = () => {
   return (

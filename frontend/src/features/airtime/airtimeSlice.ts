@@ -34,7 +34,7 @@ export const getAirtimeProvider = createAsyncThunk<
   fetchAirtimeResult[],
   null,
   { state: RootState }
->("getAirtime", async (data, thunkApi) => {
+>("getAirtime", async (_state, thunkApi) => {
   try {
     const resp = await axios.get(`${url}/api/v1/airtime`, {
       withCredentials: true,
@@ -78,7 +78,7 @@ export const airtimeSlice = createSlice({
   name: "airtime",
   initialState,
   reducers: {
-    clearState: (state) => {
+    clearState: () => {
       return initialState;
     },
     handleChange: <K extends keyof airtimeInitialState>(
@@ -120,7 +120,7 @@ export const airtimeSlice = createSlice({
         state.serverResponse = action.payload;
         state.providerArr = action.payload.map((item) => item.title);
       })
-      .addCase(getAirtimeProvider.rejected, (state) => {
+      .addCase(getAirtimeProvider.rejected, () => {
         toast("somthing went wrong fetching");
       })
       .addCase(purchaseAirtime.pending, (state) => {

@@ -14,7 +14,6 @@ import {
   type cableInitialState,
 } from "@/features/cable/cableSlice";
 import type { AppDispatch, RootState } from "@/Store";
-import type { dataInitialState } from "@/utils/types";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

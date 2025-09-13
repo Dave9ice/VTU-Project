@@ -1,7 +1,5 @@
-import React from "react";
 import BreadCrumps from "@/components/BreadCrumps";
 import { alignment } from "@/components/Navbar";
-import { CiLocationOn } from "react-icons/ci";
 import { IoMdMail } from "react-icons/io";
 import { FaPhoneAlt } from "react-icons/fa";
 

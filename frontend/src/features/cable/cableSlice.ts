@@ -116,7 +116,7 @@ const cableSlice = createSlice({
   name: "cable",
   initialState,
   reducers: {
-    clearState: (state) => {
+    clearState: () => {
       return initialState;
     },
     handleChange: <K extends keyof cableInitialState>(

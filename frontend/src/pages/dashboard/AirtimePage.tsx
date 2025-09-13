@@ -13,20 +13,12 @@ import {
   type airtimeInitialState,
 } from "@/features/airtime/airtimeSlice";
 import type { AppDispatch, RootState } from "@/Store";
-import type { dataInitialState } from "@/utils/types";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const AirtimePage = () => {
-  const {
-    charge,
-    provider,
-    phoneNumber,
-    amount,
-    providerArr,
-    subcategory_id,
-    serverResponse,
-  } = useSelector((store: RootState) => store.airtime);
+  const { charge, provider, phoneNumber, amount, providerArr, subcategory_id } =
+    useSelector((store: RootState) => store.airtime);
   // console.log(provider);
   const dispatch = useDispatch<AppDispatch>();
   const handleAirtimeChange = (

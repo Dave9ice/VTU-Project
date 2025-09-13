@@ -1,5 +1,5 @@
-import FormRow from "@/components/FormRow";
-import { Button } from "@/components/ui/button";
+// import FormRow from "@/components/FormRow";
+// import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import React, { useEffect } from "react";
 
@@ -28,7 +28,7 @@ const PaymentPage: React.FC = () => {
             login
           </h2>
 
-          <FormRow
+          {/* <FormRow
             type="email"
             name="email"
             placeholder="your email@gmail.com"
@@ -36,7 +36,7 @@ const PaymentPage: React.FC = () => {
           <FormRow type="number" name="amount" />
           <Button className="capitalize" type="button" onClick={payWithMonify}>
             pay
-          </Button>
+          </Button> */}
         </Card>
       </form>
     </section>
