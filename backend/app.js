@@ -29,14 +29,14 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 };
+app.use(express.json({ type: "*/*" }));
+app.use(cookieParser(process.env.JWT_SECRET));
 app.use(cors(corsOptions));
 app.set("trust proxy", 1);
 app.use(rateLimiter({ windowMs: 15 * 60 * 1000, max: 60 }));
 app.use(helmet());
 app.use(xss());
 app.use(mongoSanitizer());
-app.use(express.json({ type: "*/*" }));
-app.use(cookieParser(process.env.JWT_SECRET));
 
 // app.options("/*", cors(corsOptions));
 app.get("/", (req, res) => res.send("home page"));
