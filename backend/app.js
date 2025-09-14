@@ -30,23 +30,15 @@ app.use(xss());
 app.use(mongoSanitizer());
 app.use(express.json({ type: "*/*" }));
 app.use(cookieParser(process.env.JWT_SECRET));
-app.use(
-  cors({
-    origin: "https://vtu-project-frontend.onrender.com",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
-app.options(
-  "*",
-  cors({
-    origin: "https://vtu-project-frontend.onrender.com",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
+
+const corsOptions = {
+  origin: "https://vtu-project-frontend.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.get("/", (req, res) => res.send("home page"));
 // routes
 app.use("/api/v1/data", getDataRouter);
