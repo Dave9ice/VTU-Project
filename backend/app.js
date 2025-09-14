@@ -33,10 +33,20 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use(
   cors({
     origin: "https://vtu-project-frontend.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
-
+app.options(
+  "*",
+  cors({
+    origin: "https://vtu-project-frontend.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 app.get("/", (req, res) => res.send("home page"));
 // routes
 app.use("/api/v1/data", getDataRouter);
