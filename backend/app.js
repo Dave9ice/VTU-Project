@@ -23,6 +23,13 @@ import errorHandlerMiddlware from "./middleware/errorHandlerMiddleware.js";
 import notFoundMiddleWare from "./errors/not-found.js";
 
 dotenv.config();
+const corsOptions = {
+  origin: "https://vtu-project-frontend.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.set("trust proxy", 1);
 app.use(rateLimiter({ windowMs: 15 * 60 * 1000, max: 60 }));
 app.use(helmet());
@@ -31,13 +38,6 @@ app.use(mongoSanitizer());
 app.use(express.json({ type: "*/*" }));
 app.use(cookieParser(process.env.JWT_SECRET));
 
-const corsOptions = {
-  origin: "https://vtu-project-frontend.onrender.com",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-};
-app.use(cors(corsOptions));
 // app.options("/*", cors(corsOptions));
 app.get("/", (req, res) => res.send("home page"));
 // routes
