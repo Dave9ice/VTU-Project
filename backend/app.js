@@ -38,7 +38,7 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-app.options("/*", cors(corsOptions));
+// app.options("/*", cors(corsOptions));
 app.get("/", (req, res) => res.send("home page"));
 // routes
 app.use("/api/v1/data", getDataRouter);
