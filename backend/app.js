@@ -32,7 +32,7 @@ app.use(express.json({ type: "*/*" }));
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(
   cors({
-    origin: "*",
+    origin: "https://vtu-project-frontend.onrender.com",
     credentials: true,
   })
 );
