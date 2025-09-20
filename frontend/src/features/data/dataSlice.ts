@@ -35,7 +35,7 @@ export const fetchDataProvider = createAsyncThunk<
   { state: RootState }
 >("fetchProvider", async (_data, thunkApi) => {
   try {
-    const resp = await axios.get(`${url}/api/v1/data/`, {
+    const resp = await axios.get(`${url}/api/v1/data`, {
       withCredentials: true,
     });
     console.log(resp.data);
