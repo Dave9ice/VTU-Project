@@ -13,12 +13,13 @@ export const verifyToken = ({ token }) => {
 
 export const attashCookiesToResponse = ({ res, user }) => {
   const token = createJWt({ payload: user });
+  // console.log(token);
   const oneDay = 1000 * 60 * 60 * 24;
   res.cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     expires: new Date(Date.now() + oneDay),
     signed: true,
-    sameSite: "none",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 };

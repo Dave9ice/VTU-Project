@@ -5,6 +5,7 @@ import axios from "axios";
 import { fetchPlugingData } from "../utils/actions/data-function.js";
 const getAllProvider = async (req, res) => {
   const { data } = await fetchPlugingData();
+  console.log(data);
   if (!data) {
     return res.status(500).json({ msg: "something went wrong" });
   }

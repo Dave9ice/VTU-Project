@@ -1,3 +1,4 @@
+import "express-async-errors";
 import express from "express";
 import getDataRouter from "./routes/dataRoutes.js";
 import authRouter from "./routes/authRoutes.js";
@@ -16,7 +17,6 @@ import helmet from "helmet";
 import rateLimiter from "express-rate-limit";
 import xss from "xss-clean";
 import mongoSanitizer from "express-mongo-sanitize";
-import "express-async-errors";
 
 const app = express();
 // middleware
@@ -25,7 +25,10 @@ import notFoundMiddleWare from "./errors/not-found.js";
 
 dotenv.config();
 const corsOptions = {
-  origin: "https://vtu-project-frontend.onrender.com",
+  origin: [
+    "https://vtu-project-frontend.onrender.com",
+    "http://localhost:5173",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,

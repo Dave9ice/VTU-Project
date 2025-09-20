@@ -11,7 +11,7 @@ export const fetchPlugingData = async () => {
     });
     // res.status(200).json({ msg: resp.data.status })
     // console.log(resp.data);
-    return resp.data.data;
+    return resp.data || [];
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response.status === 401) {
@@ -40,7 +40,7 @@ export const purchaseDataFn = async ({
   subcategory_id,
   custom_reference,
 }) => {
-  const data = await PluginToken.find({});
+  const data = await plugingToken.find({});
   const token = data[0].token;
   try {
     const resp = await axios.post(
@@ -63,11 +63,11 @@ export const purchaseDataFn = async ({
         return retryResp.data;
       } else {
         console.log(error);
-        throw new Error(error);
+        throw new Error("Somthing went wrong while purchasing airtime");
       }
     } else {
       console.log(error);
-      throw new Error(error);
+      throw new Error("Somthing went wrong while purchasing airtime");
     }
   }
 };
