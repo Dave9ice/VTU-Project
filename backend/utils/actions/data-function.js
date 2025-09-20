@@ -22,7 +22,7 @@ export const fetchPlugingData = async () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        return retryResp.data;
+        return retryResp.data || [];
       } else {
         console.log(error);
         throw new Error(error);

@@ -16,6 +16,7 @@ import helmet from "helmet";
 import rateLimiter from "express-rate-limit";
 import xss from "xss-clean";
 import mongoSanitizer from "express-mongo-sanitize";
+import "express-async-errors";
 
 const app = express();
 // middleware
