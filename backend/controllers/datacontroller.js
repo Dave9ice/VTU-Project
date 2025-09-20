@@ -6,7 +6,7 @@ import { fetchPlugingData } from "../utils/actions/data-function.js";
 const getAllProvider = async (req, res) => {
   const { data } = await fetchPlugingData();
   if (!data) {
-    throw new BadRequestError("somthing went wrong");
+    return res.status(500).json({ msg: "something went wrong" });
   }
   const provider = data
     .map((item) => item.title)
