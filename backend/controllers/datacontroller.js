@@ -5,6 +5,9 @@ import axios from "axios";
 import { fetchPlugingData } from "../utils/actions/data-function.js";
 const getAllProvider = async (req, res) => {
   const { data } = await fetchPlugingData();
+  if (!data) {
+    throw new BadRequestError("somthing went wrong");
+  }
   const provider = data
     .map((item) => item.title)
     .filter(
