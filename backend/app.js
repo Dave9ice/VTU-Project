@@ -25,7 +25,11 @@ import notFoundMiddleWare from "./errors/not-found.js";
 
 dotenv.config();
 const corsOptions = {
-  origin: ["https://biggiesubng.com", "http://localhost:5173"],
+  origin: [
+    "https://biggiesubng.com",
+    "http://localhost:5173",
+    "https://www.biggiesubng.com",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
