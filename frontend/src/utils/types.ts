@@ -1,5 +1,6 @@
 export type User = {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   wallet: string;
 };
@@ -84,4 +85,5 @@ export type purchaseAirtimeProps = {
   amount: number;
   charge: number;
   phoneNumber: string;
+  provider: string;
 };

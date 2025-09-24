@@ -11,10 +11,12 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/Store";
 import { logoutUser, toggleSidebar } from "@/features/user/userSlice";
+import { useState } from "react";
 
 const DashboardNavber = () => {
   const { user, isLoading } = useSelector((store: RootState) => store.user);
   const dispatch = useDispatch<AppDispatch>();
+  const [open, setOpen] = useState(false);
 
   const logout = () => {
     dispatch(logoutUser({}));
@@ -32,19 +34,22 @@ const DashboardNavber = () => {
         >
           <FaBars />
         </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center">
+        <DropdownMenu open={open} onOpenChange={setOpen}>
+          <DropdownMenuTrigger className="flex items-center capitalize gap-1.5 text-secondary hover:cursor-pointer">
             <FaUser />
-            <h2>{user?.name}</h2>
+            <h2>{user?.firstName}</h2>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent
+            className={`bg-secondary  w-40 p-4 mt-5 capitalize hover:cursor-pointer mr-4 transform  transition-all duration-1000 ease-in-out data-[state=open]:fade-in data-[state=close]:fade-out
+            } `}
+          >
             <DropdownMenuItem>
               <Link to="/dashboard/profile">profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Button onClick={logout} className="capitalize">
+              <button onClick={logout} className="capitalize">
                 {isLoading ? "logging out" : "logout"}
-              </Button>
+              </button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

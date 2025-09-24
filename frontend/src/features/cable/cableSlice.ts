@@ -134,6 +134,12 @@ const cableSlice = createSlice({
     ) => {
       const airtime = action.payload;
       if (airtime === "dstv") {
+        state.charge = Number(state.amount) - Number(state.amount) * 0.003;
+      }
+      if (airtime === "gotv") {
+        state.charge = Number(state.amount) - Number(state.amount) * 0.005;
+      }
+      if (airtime === "startimes") {
         state.charge = Number(state.amount) - Number(state.amount) * 0.005;
       }
     },

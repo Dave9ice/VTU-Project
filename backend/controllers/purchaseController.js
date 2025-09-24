@@ -151,13 +151,18 @@ const purchaseCable = async (req, res) => {
 };
 
 const purchaseAirtime = async (req, res) => {
-  const { amount, charge, phonenumber, subcategory_id, ported } = req.body;
+  const { amount, charge, phonenumber, subcategory_id, ported, provider } =
+    req.body;
   const userID = req.user.userID;
-  if (!amount || !charge || !phonenumber || !subcategory_id) {
+  if (!amount || !charge || !phonenumber || !subcategory_id || !provider) {
     throw new BadRequestError("please provide all fields");
   }
   const custom_reference = "TXN" + Date.now();
   await verifyBalanceWithDb({ userID, amount: charge });
+  const network = detectNetwork(phonenumber);
+  if (provider !== network) {
+    throw new BadRequestError(`${phonenumber} is not an/a ${provider} number`);
+  }
   const result = await purchaseAirtimeFn({
     amount,
     subcategory_id,

@@ -8,6 +8,7 @@ import {
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { Separator } from "@radix-ui/react-dropdown-menu";
 
 const DashboardModal = () => {
   const [toggle, setToggle] = useState({
@@ -34,6 +35,11 @@ const DashboardModal = () => {
       },
     });
   };
+  // const thogleOptions = ()=>{
+  //   if(toggle.toggleBank===false){
+  //     setToggle({toggleBank:false,toggleCard:!toggle.toggleCard})
+  //   }
+  // }
   return (
     <Dialog>
       <DialogTrigger>fund wallet</DialogTrigger>
@@ -45,20 +51,23 @@ const DashboardModal = () => {
         </DialogHeader>
         <section>
           <header className="flex">
-            <input
-              type="checkbox"
-              name=""
-              id=""
-              onClick={() => {
-                setToggle({
-                  toggleCard: !toggle.toggleCard,
-                  toggleBank: !toggle.toggleBank,
-                });
-              }}
-            />
-            <h2>pay with atm card</h2>
+            <div className=" flex items-center gap-3 capitalize">
+              <button
+                className={`w-4 h-4 rounded-full border-2 p-2 ${
+                  toggle.toggleCard ? "bg-primary" : ""
+                }`}
+                onClick={() => {
+                  setToggle({
+                    toggleBank: false,
+                    toggleCard: !toggle.toggleCard,
+                  });
+                }}
+              />
+              <h2>pay with atm card</h2>
+            </div>
           </header>
-          <div className={`${toggle.toggleBank ? "hidden" : "block"}`}>
+          <Separator />
+          <div className={`${toggle.toggleCard ? "block" : "hidden"}`}>
             <p className={`${amount === "" ? "hidden" : ""}`}>
               {" "}
               you will receive {Number(amount) - 50}
@@ -73,24 +82,24 @@ const DashboardModal = () => {
         </section>
         <section>
           <header className="flex">
-            <input
-              type="checkbox"
-              name=""
-              id=""
-              onClick={() => {
-                setToggle({
-                  toggleCard: !toggle.toggleCard,
-                  toggleBank: !toggle.toggleBank,
-                });
-              }}
-            />
-            <h2>pay with bank transfer</h2>
+            <div className="flex items-center gap-3 capitalize">
+              <button
+                className={`w-4 h-4 rounded-full border-2 p-2 ${
+                  toggle.toggleBank ? "bg-primary" : ""
+                }`}
+                onClick={() => {
+                  setToggle({
+                    toggleCard: false,
+                    toggleBank: !toggle.toggleBank,
+                  });
+                }}
+              />
+              <h2>pay with bank transfer</h2>
+            </div>
           </header>
-          <div
-            className={`${toggle.toggleBank === false ? "hidden" : "block"}`}
-          >
-            <h2 className="text-center">
-              PAY INTO ANY OF THESE ACCOUNTS BELOW, YOU CAN SAVE THIS AND
+          <div className={`${toggle.toggleBank ? "block" : "hidden"}`}>
+            <h2 className="text-center font-bold">
+              PAY INTO ANY OF THESE ACCOUNTS BELOW,YOU CAN SAVE THIS AND
               TRANSFER TO IT ANYTIME
             </h2>
             <article>

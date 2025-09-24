@@ -38,6 +38,7 @@ const AirtimePage = () => {
         charge,
         subcategory_id,
         phoneNumber,
+        provider,
       })
     );
   };
@@ -52,7 +53,7 @@ const AirtimePage = () => {
   }, []);
   useEffect(() => {
     dispatch(handlePurpose(provider));
-  }, [amount]);
+  }, [amount, provider]);
   return (
     <section className="h-screen py-8 px-4 md:px-8 lg:px-10">
       <PageTitle title="buy airtime" text="airtime" />

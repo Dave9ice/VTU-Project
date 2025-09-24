@@ -95,5 +95,5 @@ export const electricProvider: { provider: string; percent: number }[] = [
   },
 ];
 
-export const url = "https://vtu-project-backend.onrender.com";
+export const url = "https://api.biggiesubng.com";
 // export const url = "http://localhost:5000";

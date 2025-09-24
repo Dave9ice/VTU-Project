@@ -69,7 +69,12 @@ const loginUser = async (req, res) => {
   }
   const tokenUser = { userID: user._id };
   attashCookiesToResponse({ res, user: tokenUser });
-  const newUser = { name: user.name, email: user.email, wallet: user.wallet };
+  const newUser = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    wallet: user.wallet,
+  };
   res.status(StatusCodes.OK).json({ user: newUser });
 };
 

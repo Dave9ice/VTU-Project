@@ -14,7 +14,7 @@ const DashboardSideBar = () => {
   const dispatch = useDispatch();
   return (
     <aside
-      className={`w-[15rem] fixed h-screen  top-0 left-0 transform transition-transform duration-300 -translate-x-full  ${
+      className={`w-[15rem] fixed h-screen bg-secondary  top-0 left-0 transform transition-transform duration-300 -translate-x-full  ${
         showSideBar ? "translate-x-0" : ""
       } md:translate-x-0 md:col-span-3 md:relative md:w-full lg:col-span-2 `}
     >
@@ -25,7 +25,7 @@ const DashboardSideBar = () => {
           <MdCancel />
         </Button>
       </header>
-      <main className=" grid ">
+      <main className=" grid bg-secondary">
         <DashboardLink
           text="dashboard"
           icon={<FaTachometerAlt className="text-primary text-2xl" />}

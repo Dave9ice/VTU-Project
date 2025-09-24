@@ -8,6 +8,7 @@ import {
 } from "@reduxjs/toolkit";
 import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
+import type { ApiError } from "../user/userSlice";
 
 export type airtimeInitialState = {
   isloading: Boolean;
@@ -51,9 +52,9 @@ export const getAirtimeProvider = createAsyncThunk<
 export const purchaseAirtime = createAsyncThunk<
   string,
   purchaseAirtimeProps,
-  { state: RootState }
+  { state: RootState; rejectValue: ApiError }
 >("buyairtime", async (data, thunkApi) => {
-  const { amount, phoneNumber, charge, subcategory_id } = data;
+  const { amount, phoneNumber, charge, subcategory_id, provider } = data;
   try {
     const resp = await axios.post(
       `${url}/api/v1/purchase/airtime`,
@@ -62,6 +63,7 @@ export const purchaseAirtime = createAsyncThunk<
         charge,
         phonenumber: phoneNumber,
         subcategory_id,
+        provider,
       },
       { withCredentials: true }
     );
@@ -95,11 +97,14 @@ export const airtimeSlice = createSlice({
       action: PayloadAction<String>
     ) => {
       const airtime = action.payload;
-      if (airtime === "MTN") {
-        state.charge = Number(state.amount) - Number(state.amount) * 0.01;
+      if (airtime === "MTN" || "AIRTEL") {
+        state.charge = Number(state.amount) - Number(state.amount) * 0.02;
       }
-      if (airtime === "dstv") {
-        state.charge = Number(state.amount) - Number(state.amount) * 0.005;
+      if (airtime === "GLO") {
+        state.charge = Number(state.amount) - Number(state.amount) * 0.065;
+      }
+      if (airtime === "9MOBILE") {
+        state.charge = Number(state.amount) - Number(state.amount) * 0.05;
       }
     },
     completeFields: (state, action: PayloadAction<string>) => {
@@ -130,9 +135,9 @@ export const airtimeSlice = createSlice({
         state.isloading = false;
         toast("airtime bought succesfully");
       })
-      .addCase(purchaseAirtime.rejected, (state) => {
+      .addCase(purchaseAirtime.rejected, (state, action) => {
         state.isloading = false;
-        toast("somthinge went wrong fetching");
+        toast(action.payload?.msg || "cant purchase data please try again");
       });
   },
 });
