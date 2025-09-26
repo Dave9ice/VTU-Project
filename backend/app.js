@@ -54,7 +54,7 @@ app.use("/api/v1/airtime", airtimeRouter);
 app.use("/api/v1/electricity", meterRouter);
 app.use("/api/v1/verifydocs", verifydocsRouter);
 app.use("/api/monnify/webhook", monnifyRouter);
-app.post("api/brevo-webhook", (req, res) => {
+app.post("/api/brevo-webhook", (req, res) => {
   const eventData = req.body;
   console.log("Received webhook event:", eventData.event);
   res.status(200).send("OK");

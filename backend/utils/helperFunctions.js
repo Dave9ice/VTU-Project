@@ -131,8 +131,8 @@ export const sendVerificationMail = async ({
         },
       }
     );
-    // console.log("email sent:", resp.data);
-    console.log(resp);
+    console.log("email sent:", resp.data);
+    // console.log(resp);
   } catch (error) {
     console.log("email error:", error?.response?.data || error.message);
   }
