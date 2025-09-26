@@ -55,7 +55,7 @@ export const verifyMeterNo = createAsyncThunk<
 export const payElectricBills = createAsyncThunk<
   string,
   payElectricBillProps,
-  { state: RootState }
+  { state: RootState; rejectValue: ApiError }
 >("payElectricBills", async (data, thunkApi) => {
   const {
     electricProvider,
@@ -127,6 +127,16 @@ const electricitySlice = createSlice({
         state.isLoading = false;
         state.verifyResult = action.payload?.msg;
         toast(action.payload?.msg);
+      })
+      .addCase(payElectricBills.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(payElectricBills.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(payElectricBills.rejected, (state, action) => {
+        state.isLoading = false;
+        toast(action.payload?.msg || "something went wrong");
       });
   },
 });

@@ -12,6 +12,7 @@ import {
 } from "@reduxjs/toolkit";
 import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
+import type { ApiError } from "../user/userSlice";
 
 const initialState: dataInitialState = {
   provider: "",
@@ -32,13 +33,13 @@ const initialState: dataInitialState = {
 export const fetchDataProvider = createAsyncThunk<
   string[],
   null,
-  { state: RootState }
+  { state: RootState; rejectValue: ApiError }
 >("fetchProvider", async (_data, thunkApi) => {
   try {
     const resp = await axios.get(`${url}/api/v1/data`, {
       withCredentials: true,
     });
-    console.log(resp.data);
+    // console.log(resp.data);
     return resp.data.provider;
   } catch (error) {
     if (isAxiosError(error)) {
@@ -70,7 +71,7 @@ export const fetchData = createAsyncThunk<
 export const buyData = createAsyncThunk<
   string,
   buyDataProps,
-  { state: RootState }
+  { state: RootState; rejectValue: ApiError }
 >("buyData", async (data, thunkApi) => {
   const { provider, selectedPlan, amount, phoneNumber, subCategoryId } = data;
   try {
@@ -153,9 +154,9 @@ const dataSlice = createSlice({
         state.isLoading = false;
         toast("successs");
       })
-      .addCase(buyData.rejected, (state) => {
+      .addCase(buyData.rejected, (state, action) => {
         state.isLoading = false;
-        toast("somthing went wrong");
+        toast(action.payload?.msg || "somthing went wrong");
       });
   },
 });

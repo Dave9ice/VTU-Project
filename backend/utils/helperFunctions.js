@@ -104,3 +104,36 @@ export const createTransationInDB = async ({
     transactionReference,
   });
 };
+
+export const sendVerificationMail = async ({
+  verifiedToken,
+  email,
+  firstName,
+}) => {
+  const origin = "http://localhost:5173";
+  const verifyEmail = `${origin}/verify-email?token=${verifiedToken}&email=${email}`;
+  const message = `<p>Please confirm your email by clicking on the following link : 
+  <a href="${verifyEmail}">Verify Email</a> </p>`;
+  try {
+    const resp = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: { name: "BiggieSubNg", email: "info@biggiesubng.com" },
+        to: [{ email, name: firstName }],
+        subject: "Welcome To BiggieSubNg",
+        htmlContent: "<p>hello</p>",
+      },
+      {
+        headers: {
+          accept: "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    // console.log("email sent:", resp.data);
+    console.log(resp);
+  } catch (error) {
+    console.log("email error:", error?.response?.data || error.message);
+  }
+};

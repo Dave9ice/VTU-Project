@@ -33,7 +33,7 @@ const purchaseData = async (req, res) => {
   }
 
   const custom_reference = "TXN" + Date.now();
-  await verifyBalanceWithDb(amount, userID);
+  await verifyBalanceWithDb({ amount, userID });
   const result = await purchaseDataFn({
     plan_id: newPlan,
     phonenumber: phoneNumber,
@@ -42,7 +42,7 @@ const purchaseData = async (req, res) => {
   });
 
   const user = await updateWallletBalance({ userID, amount });
-  console.log(result);
+  // console.log(result);
   await createTransationInDB({
     amount,
     phoneNumber,
@@ -158,11 +158,11 @@ const purchaseAirtime = async (req, res) => {
     throw new BadRequestError("please provide all fields");
   }
   const custom_reference = "TXN" + Date.now();
-  await verifyBalanceWithDb({ userID, amount: charge });
   const network = detectNetwork(phonenumber);
   if (provider !== network) {
     throw new BadRequestError(`${phonenumber} is not an/a ${provider} number`);
   }
+  await verifyBalanceWithDb({ userID, amount: charge });
   const result = await purchaseAirtimeFn({
     amount,
     subcategory_id,

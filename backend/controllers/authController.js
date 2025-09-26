@@ -9,6 +9,7 @@ import {
 import User from "../models/user.js";
 import crypto from "crypto";
 import { attashCookiesToResponse } from "../utils/jwt.js";
+import { sendVerificationMail } from "../utils/helperFunctions.js";
 
 const registerUser = async (req, res) => {
   const { password, firstName, lastName, email, phoneNumber } = req.body;
@@ -27,6 +28,11 @@ const registerUser = async (req, res) => {
     email,
     phoneNumber,
     verifiedToken,
+  });
+  await sendVerificationMail({
+    firstName: user.firstName,
+    email: user.email,
+    verifiedToken: user.verifiedToken,
   });
   res.status(StatusCodes.CREATED).json({ msg: "please verify your email" });
 };

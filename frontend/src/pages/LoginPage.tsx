@@ -6,6 +6,7 @@ import type { AppDispatch, RootState } from "@/Store";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import favicon from "../assets/images/logo-favicon.png";
 import { toast } from "sonner";
 
 type loginState = {
@@ -47,7 +48,8 @@ const LoginPage = () => {
     <section className="grid place-items-center h-screen bg-secondary">
       <form className="w-4/5 max-w-3xl" onSubmit={handleSubmit}>
         <Card className="p-8">
-          <h2 className="text-center capitalize sm:text-2xl md:text-3xl">
+          <h2 className="text-center capitalize sm:text-2xl md:text-3xl flex gap-4 justify-center items-center">
+            <img src={favicon} alt="logo" />
             login
           </h2>
           <p className="bg-destructive">{registermsg}</p>
@@ -67,7 +69,7 @@ const LoginPage = () => {
           <Button className="capitalize" disabled={isLoading}>
             {isLoading ? "login In..." : "login"}
           </Button>
-          <button className="text-center cursor-pointer hover:text-gray-500">
+          <button className="text-center cursor-pointer hover:text-gray-500 hover:underline">
             <Link to="/register">create an account</Link>
           </button>
         </Card>

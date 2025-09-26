@@ -8,6 +8,8 @@ import type { RootState } from "@/Store";
 import { MdCancel } from "react-icons/md";
 import { Button } from "./ui/button";
 import { toggleSidebar } from "@/features/user/userSlice";
+import logo from "../assets/images/logo-favicon.png";
+import logoImage from "../assets/images/logo-dark-transparent.png";
 
 const DashboardSideBar = () => {
   const { showSideBar } = useSelector((store: RootState) => store.user);
@@ -18,11 +20,15 @@ const DashboardSideBar = () => {
         showSideBar ? "translate-x-0" : ""
       } md:translate-x-0 md:col-span-3 md:relative md:w-full lg:col-span-2 `}
     >
-      <header className="h-15 bg-primary flex gap-2 justify-between items-center">
-        <h2>logo</h2>
-        <h2>logo image</h2>
-        <Button onClick={() => dispatch(toggleSidebar())}>
-          <MdCancel />
+      <header className="h-15 bg-primary flex gap-2 justify-between md:justify-center items-center">
+        <img src={logo} alt="logo" className="h-10 w-10" />
+        <div className="bg-secondary w-30 md:w-40 md:justify-self-center">
+          {" "}
+          <img src={logoImage} alt="logo" />
+        </div>
+        {/* <h2>logo image</h2> */}
+        <Button onClick={() => dispatch(toggleSidebar())} className="md:hidden">
+          <MdCancel className="h-10 w-10" />
         </Button>
       </header>
       <main className=" grid bg-secondary">

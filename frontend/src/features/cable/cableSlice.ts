@@ -80,7 +80,7 @@ export const verifyCableCard = createAsyncThunk<
 export const cablePayment = createAsyncThunk<
   string,
   payCableBillProps,
-  { state: RootState }
+  { state: RootState; rejectValue: ApiError }
 >("cablePayment", async (data, thunkApi) => {
   const {
     cable,
@@ -178,6 +178,16 @@ const cableSlice = createSlice({
       .addCase(verifyCableCard.rejected, (state, action) => {
         state.isLoading = false;
         state.verifyResult = action.payload?.msg;
+        toast(action.payload?.msg);
+      })
+      .addCase(cablePayment.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(cablePayment.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(cablePayment.rejected, (state, action) => {
+        state.isLoading = false;
         toast(action.payload?.msg);
       });
   },
