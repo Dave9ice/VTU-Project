@@ -1,7 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { verifyUser } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
-import type { Store } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { GrStatusGood } from "react-icons/gr";
 import { MdCancel } from "react-icons/md";
