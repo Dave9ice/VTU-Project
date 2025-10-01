@@ -110,7 +110,8 @@ export const sendVerificationMail = async ({
   email,
   firstName,
 }) => {
-  const origin = "http://localhost:5173";
+  // const origin = "http://localhost:5173";
+  const origin = "http://biggiesubng.com";
   const verifyEmail = `${origin}/verify-email?token=${verifiedToken}&email=${email}`;
   const message = `<p>Please confirm your email by clicking on the following link : 
   <a href="${verifyEmail}">Verify Email</a> </p>`;
@@ -118,10 +119,10 @@ export const sendVerificationMail = async ({
     const resp = await axios.post(
       "https://api.brevo.com/v3/smtp/email",
       {
-        sender: { name: "BiggieSubNg", email: "info@biggiesubng.com" },
+        sender: { name: "BiggieSubNG", email: "info@biggiesubng.com" },
         to: [{ email, name: firstName }],
         subject: "Welcome To BiggieSubNg",
-        htmlContent: "<p>hello</p>",
+        htmlContent: message,
       },
       {
         headers: {
@@ -131,6 +132,7 @@ export const sendVerificationMail = async ({
         },
       }
     );
+
     console.log("email sent:", resp.data);
     // console.log(resp);
   } catch (error) {
