@@ -87,3 +87,8 @@ export type purchaseAirtimeProps = {
   phoneNumber: string;
   provider: string;
 };
+
+export type verifyUserProps = {
+  email: string;
+  token: string;
+};

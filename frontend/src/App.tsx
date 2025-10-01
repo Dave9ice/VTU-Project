@@ -14,6 +14,7 @@ import ExamPage from "./pages/dashboard/ExamPage";
 import AirtimePage from "./pages/dashboard/AirtimePage";
 import PaymentPage from "./pages/dashboard/PaymentPage";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import VerifyPage from "./pages/VerifyPage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/verify-email" element={<VerifyPage />} />
         <Route
           path="/dashboard"
           element={

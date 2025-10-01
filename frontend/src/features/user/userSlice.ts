@@ -5,7 +5,12 @@ import {
   removeUserFromLocalStorage,
   setUserToLocalStorage,
 } from "@/utils/localStorage";
-import type { registerData, User, userInitialState } from "@/utils/types";
+import type {
+  registerData,
+  User,
+  userInitialState,
+  verifyUserProps,
+} from "@/utils/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
@@ -56,6 +61,25 @@ export const registerUser = createAsyncThunk<
       email,
       password,
       phoneNumber,
+    });
+    return resp.data.msg;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return thunkApi.rejectWithValue(error.response?.data);
+    }
+    console.log(error);
+  }
+});
+
+export const verifyUser = createAsyncThunk<
+  string,
+  verifyUserProps,
+  { state: RootState; rejectValue: ApiError }
+>("verifyUser", async (data, thunkApi) => {
+  try {
+    const resp = await axios.post(`${url}/api/v1/auth/verify-user`, {
+      verifyToken: data.token,
+      email: data.email,
     });
     return resp.data.msg;
   } catch (error) {
@@ -134,6 +158,18 @@ const userSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
         toast(action.payload?.msg);
+      })
+      .addCase(verifyUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(verifyUser.fulfilled, (state, action) => {
+        (state.isLoading = false), (state.succesMsg = action.payload);
+      })
+      .addCase(verifyUser.rejected, (state, action) => {
+        (state.isLoading = false),
+          // (state.succesMsg =
+          //   action.payload?.msg || "somthing went wrong verifying");
+          toast(action.payload?.msg);
       });
   },
 });
