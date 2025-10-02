@@ -10,6 +10,7 @@ import { Button } from "./ui/button";
 import { toggleSidebar } from "@/features/user/userSlice";
 import logo from "../assets/images/logo-favicon.png";
 import logoImage from "../assets/images/logo-dark-transparent.png";
+import { Link } from "react-router-dom";
 
 const DashboardSideBar = () => {
   const { showSideBar } = useSelector((store: RootState) => store.user);
@@ -32,10 +33,12 @@ const DashboardSideBar = () => {
         </Button>
       </header>
       <main className=" grid bg-secondary">
-        <DashboardLink
-          text="dashboard"
-          icon={<FaTachometerAlt className="text-primary text-2xl" />}
-        />
+        <div className="bg-transparent transform transition-transform duration-150   justify-start py-4 text-gray-600 border-b-2 capitalize hover:underline hover:translate-x-1.5 hover:text-gray-400 p-4">
+          <Link to="/dashboard" className="flex gap-4 items-center ">
+            <FaTachometerAlt />
+            <h2>dashboard</h2>
+          </Link>
+        </div>
 
         <DashboardLink
           text="data"

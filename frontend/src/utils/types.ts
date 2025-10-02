@@ -2,7 +2,9 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
-  wallet: string;
+  wallet: number;
+  phoneNumber: string;
+  joinDate: string;
 };
 export type userInitialState = {
   user: User | null;

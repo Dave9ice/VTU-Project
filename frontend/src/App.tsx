@@ -15,6 +15,7 @@ import AirtimePage from "./pages/dashboard/AirtimePage";
 import PaymentPage from "./pages/dashboard/PaymentPage";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import VerifyPage from "./pages/VerifyPage";
+import ProfilePage from "./pages/dashboard/ProfilePage";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="/dashboard/exams" element={<ExamPage />} />
           <Route path="/dashboard/airtime" element={<AirtimePage />} />
           <Route path="/dashboard/payment" element={<PaymentPage />} />
+          <Route path="/dashboard/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

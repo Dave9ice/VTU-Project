@@ -83,6 +83,8 @@ const loginUser = async (req, res) => {
     lastName: user.lastName,
     email: user.email,
     wallet: user.wallet,
+    joinDate: user.createdAt,
+    phoneNumber: user.phoneNumber,
   };
   res.status(StatusCodes.OK).json({ user: newUser });
 };

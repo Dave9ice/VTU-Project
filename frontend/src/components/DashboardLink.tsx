@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 type dashboardlinkprops = {
   text: string;
   icon: React.ReactNode;
+  // href?: string;
 };
 
 const DashboardLink = ({ text, icon }: dashboardlinkprops) => {
