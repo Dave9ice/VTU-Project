@@ -7,6 +7,7 @@ import { IoIosFlash } from "react-icons/io";
 import { FaPercent } from "react-icons/fa";
 import { MdSupportAgent } from "react-icons/md";
 import ProcessSection from "@/components/ProcessSection";
+import ServiceSection from "@/components/ServiceSection";
 const HomePage = () => {
   return (
     <>
@@ -41,6 +42,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+      <ServiceSection />
       <section className="py-10">
         <h2 className="capitalize text-2xl text-center mb-4 text-primary">
           why choose us?
