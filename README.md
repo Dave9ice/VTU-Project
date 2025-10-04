@@ -16,16 +16,15 @@ A web-based Virtual Top-Up (VTU) platform that allows users to purchase airtime,
 
 ## 🛠 Tech Stack
 
-- **Frontend:** React, Bootstrap (or CSS framework used)
+- **Frontend:** React, tailwind css
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB + Mongoose
 - **Authentication:** JWT, bcrypt
 - **API Integration:** External VTU service provider
-- **Deployment:** (Heroku / Render / Vercel — specify if used)
+- **Deployment:** Render 
 
 ## 📸 Screenshots
 
-> (Add login, dashboard, transaction success screen, etc.)
 
 ## 🌐 Live Demo
 
