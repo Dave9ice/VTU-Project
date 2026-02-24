@@ -36,7 +36,7 @@ export const flutterwaveWebhook = async (req, res) => {
     const { tx_ref, amount } = verifiedTransaction;
     console.log("verified transaction:", verifiedTransaction);
     const transaction = await Transaction.findOne({
-      transactionReference: tx_id,
+      transactionReference: tx_ref,
     });
     // check account expiry
     const isExpired = Date.now() > transaction.expiresAt;
