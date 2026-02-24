@@ -11,8 +11,9 @@ import { useCountdown } from "@/hooks/countdown";
 import { formatTime } from "@/utils/localStorage";
 
 const PaymentPage = () => {
-  const { accountNumber, bankName, amount, trx_ref, status, expiresIn } =
-    useSelector((state: RootState) => state.account);
+  const { accountNumber, bankName, amount, trx_ref, expiresIn } = useSelector(
+    (state: RootState) => state.account,
+  );
   const [pollingInterval, setPollingInterval] = useState(0);
   const { data, isSuccess } = useGetTransactionStatusQuery(trx_ref, {
     skip: !trx_ref,

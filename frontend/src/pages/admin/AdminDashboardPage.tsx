@@ -1,6 +1,5 @@
-import { Card } from "@/components/ui/card";
 import { FaUsers } from "react-icons/fa";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import AdminDashboardCard from "@/components/AdminDashboardCard";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/Store";

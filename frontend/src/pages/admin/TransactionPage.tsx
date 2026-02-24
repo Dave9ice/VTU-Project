@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { fetchTransaction } from "@/features/transaction/transactionSlice";
 import type { AppDispatch, RootState } from "@/Store";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const TransactionPage = () => {
