@@ -13,10 +13,10 @@ export const flutterwaveWebhook = async (req, res) => {
   const payload = req.body;
   console.log(payload);
   // const { txRef, charge_type, entity, status } = payload;
-  const { tx_ref, naration, payment_type, status, id } = payload.data;
+  const { tx_ref, narration, payment_type, status, id } = payload.data;
   const isVisualAccountPayment =
     payment_type === "bank_transfer" &&
-    naration === "funding wallet" &&
+    narration === "funding wallet" &&
     tx_ref.startsWith("TRX-");
 
   if (!isVisualAccountPayment && status === "successful") {
