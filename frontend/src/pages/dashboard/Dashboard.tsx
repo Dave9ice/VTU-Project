@@ -7,8 +7,11 @@ import { FaDroplet } from "react-icons/fa6";
 import { TfiWrite } from "react-icons/tfi";
 
 import DashboardModal from "@/components/DashboardModal";
+import { useSelector } from "react-redux";
+import { type RootState } from "@/Store";
 
 const Dashboard = () => {
+  const { user } = useSelector((store: RootState) => store.user);
   return (
     <section className="py-8 px-4">
       <header className="capitalize flex flex-col md:flex-row md:justify-between mb-8">
@@ -19,7 +22,7 @@ const Dashboard = () => {
         <Card className="flex flex-row justify-between items-center capitalize">
           <CardHeader>
             <h1>balance</h1>
-            <p>#0</p>
+            <p>{user?.wallet || 0}</p>
           </CardHeader>
           <CardContent>
             <DashboardModal />
