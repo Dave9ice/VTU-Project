@@ -1,7 +1,7 @@
 import FormRow from "@/components/FormRow";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { registerUser } from "@/features/user/userSlice";
+import { clearState, registerUser } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,9 +28,10 @@ const RegisterPage = () => {
   // console.log(values);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { isLoading, succesMsg } = useSelector(
-    (store: RootState) => store.user
+  const { isLoading, succesMsg, email } = useSelector(
+    (store: RootState) => store.user,
   );
+  console.log(succesMsg, email);
   const registerFn = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const {
@@ -49,7 +50,7 @@ const RegisterPage = () => {
       return;
     }
     dispatch(
-      registerUser({ firstName, lastName, email, password, phoneNumber })
+      registerUser({ firstName, lastName, email, password, phoneNumber }),
     );
     return setVaues({
       firstName: "",
@@ -65,10 +66,13 @@ const RegisterPage = () => {
     const value = e.target.value;
     setVaues({ ...values, [name]: value });
   };
-
+  useEffect(() => {
+    dispatch(clearState());
+  }, []);
   useEffect(() => {
     if (succesMsg) {
-      navigate(`/login/?msg=${succesMsg}`);
+      // const email = "hello@gmail.c;
+      navigate(`/verify-account`, { state: { email } });
     }
   }, [succesMsg]);
   return (

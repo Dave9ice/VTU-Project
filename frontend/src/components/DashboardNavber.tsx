@@ -40,7 +40,7 @@ const DashboardNavber = () => {
             <h2>{user?.firstName}</h2>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className={`bg-secondary  w-40 p-4 mt-5 capitalize hover:cursor-pointer mr-4 transform  transition-all duration-1000 ease-in-out data-[state=open]:fade-in data-[state=close]:fade-out
+            className={`bg-secondary z-20  w-40 p-4 mt-5 capitalize hover:cursor-pointer mr-4 transform  transition-all duration-1000 ease-in-out data-[state=open]:fade-in data-[state=close]:fade-out
             } `}
           >
             <DropdownMenuItem>

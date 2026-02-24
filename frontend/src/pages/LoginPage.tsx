@@ -1,7 +1,7 @@
 import FormRow from "@/components/FormRow";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { loginUser } from "@/features/user/userSlice";
+import { clearState, loginUser } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,7 +36,9 @@ const LoginPage = () => {
     }
     dispatch(loginUser({ email: values.email, password: values.password }));
   };
-
+  useEffect(() => {
+    dispatch(clearState());
+  }, []);
   useEffect(() => {
     if (user) {
       setTimeout(() => {
@@ -69,9 +71,14 @@ const LoginPage = () => {
           <Button className="capitalize" disabled={isLoading}>
             {isLoading ? "login In..." : "login"}
           </Button>
-          <button className="text-center cursor-pointer hover:text-gray-500 hover:underline">
-            <Link to="/register">create an account</Link>
-          </button>
+          <div className="flex gap-x-4">
+            <button className="text-center cursor-pointer hover:text-gray-500 hover:underline capitalize">
+              <Link to="/register">create an account</Link>
+            </button>
+            <button className="text-center cursor-pointer hover:text-gray-500 hover:underline capitalize">
+              <Link to="/forgot-password">forgot password?</Link>
+            </button>
+          </div>
         </Card>
       </form>
     </section>

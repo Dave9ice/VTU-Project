@@ -9,43 +9,56 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import {
+  createVirtualAccountNumber,
+  handleChange,
+  type accountInitialState,
+} from "@/features/account/accountSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { type AppDispatch, type RootState } from "@/Store";
+import { useNavigate } from "react-router-dom";
 
 const DashboardModal = () => {
   const [toggle, setToggle] = useState({
     toggleCard: false,
     toggleBank: false,
   });
-  const [amount, setAmount] = useState("");
-  const payWithMonify = () => {
-    window.MonnifySDK.initialize({
-      amount: 2000,
-      currency: "NGN",
-      reference: new String(new Date().getTime()),
-      customerFullName: "john doe",
-      customerEmail: "john@gmail.com",
-      apiKey: "MK_TEST_92EKJVRS87",
-      contractCode: "4455889008",
-      paymentDescription: "Wallet Funding",
-      isTestMode: true,
-      onComplete: (response: any) => {
-        console.log(response);
-      },
-      onClose: () => {
-        console.log("payment modal closed");
-      },
-    });
+  const [cardAmount, setCardAmount] = useState("");
+  const { amount, isLoading } = useSelector(
+    (store: RootState) => store.account,
+  ) as {
+    amount: number;
+    isLoading: Boolean;
+    accountNumber: string;
+    bankName: string;
   };
-  // const thogleOptions = ()=>{
-  //   if(toggle.toggleBank===false){
-  //     setToggle({toggleBank:false,toggleCard:!toggle.toggleCard})
-  //   }
-  // }
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const handleChangeFn = (
+    e:
+      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const name = e.target.name as keyof accountInitialState;
+    const value = e.target.value;
+    dispatch(handleChange({ name, value }));
+  };
+
+  const createVirtualAccountNumberFn = async () => {
+    const resultAction = await dispatch(createVirtualAccountNumber({ amount }));
+    if (createVirtualAccountNumber.fulfilled.match(resultAction)) {
+      navigate("/payment");
+    }
+  };
+
   return (
     <Dialog>
-      <DialogTrigger>fund wallet</DialogTrigger>
+      <DialogTrigger className="uppercase bg-primary rounded-full text-white p-2 cursor-pointer">
+        fund wallet
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="">
             <button>fund wallet</button>
           </DialogTitle>
         </DialogHeader>
@@ -68,7 +81,7 @@ const DashboardModal = () => {
           </header>
           <Separator />
           <div className={`${toggle.toggleCard ? "block" : "hidden"}`}>
-            <p className={`${amount === "" ? "hidden" : ""}`}>
+            <p className={`${cardAmount === "" ? "hidden" : ""}`}>
               {" "}
               you will receive {Number(amount) - 50}
             </p>
@@ -76,7 +89,7 @@ const DashboardModal = () => {
               type="number"
               name="amount"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => setCardAmount(e.target.value)}
             />
           </div>
         </section>
@@ -97,27 +110,35 @@ const DashboardModal = () => {
               <h2>pay with bank transfer</h2>
             </div>
           </header>
+          <Separator />
           <div className={`${toggle.toggleBank ? "block" : "hidden"}`}>
-            <h2 className="text-center font-bold">
-              PAY INTO ANY OF THESE ACCOUNTS BELOW,YOU CAN SAVE THIS AND
-              TRANSFER TO IT ANYTIME
-            </h2>
-            <article>
-              <h2 className="font-bold">palmpay</h2>
-              <p>
-                Charges - 0.4% per deposit, Eg Transfer 1000 and get funded 996,
-                or transfer 100k and get funded 99,700
-              </p>
-              <h2>account number :</h2>
-              <h2>account name :</h2>
-              <Button>create account</Button>
-            </article>
+            <p className={`${!amount ? "hidden" : ""}`}>
+              {" "}
+              you will receive {Number(amount) - 50}
+            </p>
+            <Input
+              type="number"
+              name="amount"
+              value={amount}
+              onChange={handleChangeFn}
+            />
           </div>
         </section>
         <div className=" flex gap-4">
           <Button>cancel</Button>
-          <Button disabled={amount === ""} onClick={payWithMonify}>
+          <Button
+            disabled={cardAmount === ""}
+            className={`${toggle.toggleCard ? "" : "hidden"}`}
+          >
             proceed
+          </Button>
+          {/* bank transfer button */}
+          <Button
+            onClick={createVirtualAccountNumberFn}
+            disabled={!amount || isLoading === true}
+            className={`${toggle.toggleBank ? "" : "hidden"}`}
+          >
+            {isLoading === true ? "Loading..." : "proceed"}
           </Button>
         </div>
       </DialogContent>

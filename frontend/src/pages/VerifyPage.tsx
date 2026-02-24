@@ -1,50 +1,77 @@
+import FormRow from "@/components/FormRow";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { verifyUser } from "@/features/user/userSlice";
+import {
+  clearState,
+  handleChange,
+  verifyUser,
+} from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
+import type { userInitialState } from "@/utils/types";
+import { useLocation } from "react-router-dom";
+
 import { useEffect } from "react";
 import { GrStatusGood } from "react-icons/gr";
-import { MdCancel } from "react-icons/md";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const VerifyPage = () => {
-  const [searchParams, _setSearchParams] = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
-  const { succesMsg, isLoading } = useSelector(
-    (store: RootState) => store.user
+  const location = useLocation();
+  const email = location.state?.email;
+  const { succesMsg, isLoading, otp } = useSelector(
+    (store: RootState) => store.user,
   );
-  const token = searchParams.get("token") as string;
-  const email = searchParams.get("email") as string;
-  //   console.log(token, email);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name as keyof userInitialState;
+    const value = e.target.value;
+    dispatch(handleChange({ name, value }));
+  };
+  const handleSubmit = () => {
+    if (!otp || otp === "") {
+      return toast("please provide otp");
+    }
+
+    dispatch(verifyUser({ token: otp, email }));
+  };
   useEffect(() => {
-    dispatch(verifyUser({ token, email }));
+    dispatch(clearState());
   }, []);
-  if (isLoading) {
-    return <h2>verifying</h2>;
-  }
   if (succesMsg) {
     return (
-      <main className="bg-secondary h-screen grid place-items-center">
-        <Card className="p-4 text-center w-3/4 grid capitalize tracking- max-w-3xl">
-          <GrStatusGood className="justify-self-center text-7xl text-primary" />
-          <h2 className="text-primary">
-            congratulations on verifying your email!!!
-          </h2>
-          <p>{succesMsg}</p>
-          {/* <p>welcome boss, glad to have you onboard, please login</p> */}
-        </Card>
-      </main>
+      <section className="h-screen grid place-items-center bg-secondary">
+        <div className="grid">
+          <span className="text-7xl justify-self-center text-primary">
+            <GrStatusGood />
+          </span>
+          <p className="capitalize font-bold">{succesMsg}</p>
+        </div>
+      </section>
     );
   }
+  // remember to include unsuccesful verification
   return (
     <main className="bg-secondary h-screen grid place-items-center">
-      <Card className="p-4 text-center w-3/4 grid capitalize tracking- max-w-3xl">
-        <MdCancel className="justify-self-center text-7xl text-primary" />
-        <h2 className="text-primary">unable to verify email</h2>
-        {/* <p>{succesMsg}</p> */}
-        {/* <p>welcome boss, glad to have you onboard, please login</p> */}
-      </Card>
+      <form className="w-full max-w-2xl px-4">
+        <Card className="px-4">
+          <h2 className="text-2xl text-center">verify user</h2>
+          <FormRow
+            name="otp"
+            value={otp}
+            label="otp code"
+            type="number"
+            handleChange={handleInputChange}
+          />
+          <Button
+            type="button"
+            className="capitalize cursor-pointer"
+            onClick={handleSubmit}
+          >
+            {isLoading ? "verifying..." : "verify user"}
+          </Button>
+        </Card>
+      </form>
     </main>
   );
 };

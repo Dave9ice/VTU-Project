@@ -13,7 +13,7 @@ const Dashboard = () => {
     <section className="py-8 px-4">
       <header className="capitalize flex flex-col md:flex-row md:justify-between mb-8">
         <h2>dashboard</h2>
-        <h2>breadcrumbs</h2>
+        <h2>home</h2>
       </header>
       <div className="grid md:grid-cols-2 gap-4 items-center">
         <Card className="flex flex-row justify-between items-center capitalize">

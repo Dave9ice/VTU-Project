@@ -4,6 +4,7 @@ export type User = {
   email: string;
   wallet: number;
   phoneNumber: string;
+  role: string;
   joinDate: string;
 };
 export type userInitialState = {
@@ -11,6 +12,10 @@ export type userInitialState = {
   isLoading: boolean;
   showSideBar: boolean;
   succesMsg: string;
+  password: string;
+  email: string;
+  newPassword: string;
+  otp: string;
 };
 
 export type fetchCableResult = {
@@ -93,4 +98,32 @@ export type purchaseAirtimeProps = {
 export type verifyUserProps = {
   email: string;
   token: string;
+};
+
+export type accountFetchResult = {
+  account_number: string;
+  bank_name: string;
+  expiresIn: string;
+  txRef: string;
+  amount: number;
+};
+export type transactionStatusResult = {
+  status: string;
+};
+
+export type statsResult = {
+  userCount: number;
+  transactionCount: number;
+  pendingTransaction: number;
+  successfulTransaction: number;
+  successfulPayment: number;
+};
+export type transactionsResult = {
+  trx_id: string;
+  user: string;
+  amount: number;
+  status: string;
+  verifiedvia: string | null;
+  createdAt: string;
+  paymentMethod: string;
 };

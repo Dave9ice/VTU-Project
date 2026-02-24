@@ -12,10 +12,17 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import ElectricityPage from "./pages/dashboard/ElectricityPage";
 import ExamPage from "./pages/dashboard/ExamPage";
 import AirtimePage from "./pages/dashboard/AirtimePage";
-import PaymentPage from "./pages/dashboard/PaymentPage";
+import PaymentPage from "./pages/PaymentPage";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import VerifyPage from "./pages/VerifyPage";
 import ProfilePage from "./pages/dashboard/ProfilePage";
+import ProtectAdminRoute from "./components/ProtectAdminRoute";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
+import TransactionPage from "./pages/admin/TransactionPage";
+import ForgottenPasswordEmailVerification from "./pages/ForgottenPasswordEmailVerification";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -28,7 +35,14 @@ function App() {
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/verify-email" element={<VerifyPage />} />
+        <Route path="/verify-account" element={<VerifyPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route
+          path="/forgottenpasswordemailverification"
+          element={<ForgottenPasswordEmailVerification />}
+        />
+        <Route path="/payment" element={<PaymentPage />} />
+        {/* USER ROUTES */}
         <Route
           path="/dashboard"
           element={
@@ -43,9 +57,21 @@ function App() {
           <Route path="/dashboard/electricity" element={<ElectricityPage />} />
           <Route path="/dashboard/exams" element={<ExamPage />} />
           <Route path="/dashboard/airtime" element={<AirtimePage />} />
-          <Route path="/dashboard/payment" element={<PaymentPage />} />
           <Route path="/dashboard/profile" element={<ProfilePage />} />
         </Route>
+        {/* ADMIN ROUTES */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectAdminRoute>
+              <AdminLayout />
+            </ProtectAdminRoute>
+          }
+        >
+          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin/transactions" element={<TransactionPage />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

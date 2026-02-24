@@ -40,10 +40,11 @@ const UserSchema = new mongoose.Schema(
       type: Number,
       default: 0.0,
     },
-    // wallet: {
-    //   type: Number,
-    //   default: 0,
-    // },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
 
     isVerified: {
       type: Boolean,
@@ -61,7 +62,7 @@ const UserSchema = new mongoose.Schema(
       type: Date,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 UserSchema.pre("save", async function () {

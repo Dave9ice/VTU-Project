@@ -1,5 +1,5 @@
 import User from "../models/user.js";
-import { BadRequestError } from "../errors/index.js";
+import { BadRequestError, UnauthenticatesError } from "../errors/index.js";
 import axios from "axios";
 import PluginToken from "../models/pluging.js";
 import Transaction from "../models/transaction.js";
@@ -48,7 +48,7 @@ export const verifyBalanceWithDb = async ({ amount, userID }) => {
   const user = await User.findOne({ _id: userID });
   if (Number(amount) > user.wallet) {
     throw new BadRequestError(
-      "insufficient wallet balance please fund your wallet"
+      "insufficient wallet balance please fund your wallet",
     );
   }
 };
@@ -78,7 +78,7 @@ export const updateToken = async () => {
   await PluginToken.findOneAndUpdate(
     { _id: process.env.TOKEN_ID },
     { token },
-    { new: true }
+    { new: true },
   );
   return token;
 };
@@ -112,9 +112,8 @@ export const sendVerificationMail = async ({
 }) => {
   // const origin = "http://localhost:5173";
   const origin = "http://biggiesubng.com";
-  const verifyEmail = `${origin}/verify-email?token=${verifiedToken}&email=${email}`;
-  const message = `<p>Please confirm your email by clicking on the following link : 
-  <a href="${verifyEmail}">Verify Email</a> </p>`;
+  // const verifyEmail = `${origin}/verify-email?token=${verifiedToken}&email=${email}`;
+  const message = `<p>your email verification code is: ${verifiedToken} </p>`;
   try {
     const resp = await axios.post(
       "https://api.brevo.com/v3/smtp/email",
@@ -130,7 +129,42 @@ export const sendVerificationMail = async ({
           "api-key": process.env.BREVO_API_KEY,
           "Content-Type": "application/json",
         },
-      }
+      },
+    );
+
+    console.log("email sent:", resp.data);
+    // console.log(resp);
+  } catch (error) {
+    console.log("email error:", error?.response?.data || error.message);
+  }
+};
+
+export const sendForgotPasswordMail = async ({
+  verifiedToken,
+  email,
+  firstName,
+}) => {
+  const origin = "http://localhost:5173";
+  // const origin = "http://biggiesubng.com";
+  const forgotPassword = `${origin}/forgottenpasswordemailverification?token=${verifiedToken}&email=${email}`;
+  const message = `<p>Please click on the following link to reset your paswword : 
+  <a href="${forgotPassword}">forgot password</a> </p>`;
+  try {
+    const resp = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: { name: "BiggieSubNG", email: "info@biggiesubng.com" },
+        to: [{ email, name: firstName }],
+        subject: "password reset",
+        htmlContent: message,
+      },
+      {
+        headers: {
+          accept: "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      },
     );
 
     console.log("email sent:", resp.data);

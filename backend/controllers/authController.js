@@ -9,8 +9,11 @@ import {
 import User from "../models/user.js";
 import crypto from "crypto";
 import { attashCookiesToResponse } from "../utils/jwt.js";
-import { sendVerificationMail } from "../utils/helperFunctions.js";
-
+import {
+  sendForgotPasswordMail,
+  sendVerificationMail,
+} from "../utils/helperFunctions.js";
+// REGISTER USER
 const registerUser = async (req, res) => {
   const { password, firstName, lastName, email, phoneNumber } = req.body;
   if (!password || !firstName || !email || !lastName || !phoneNumber) {
@@ -20,7 +23,8 @@ const registerUser = async (req, res) => {
   if (existingEmail) {
     throw new BadRequestError("email already exist");
   }
-  let verifiedToken = crypto.randomBytes(40).toString("hex");
+  const verifiedToken = `${Math.floor(Math.random() * 10000)}`.padStart(4, "0");
+  // let verifiedToken = crypto.randomBytes(40).toString("hex");
   const user = await User.create({
     firstName,
     lastName,
@@ -34,8 +38,12 @@ const registerUser = async (req, res) => {
     email: user.email,
     verifiedToken: user.verifiedToken,
   });
-  res.status(StatusCodes.CREATED).json({ msg: "please verify your email" });
+  res
+    .status(StatusCodes.CREATED)
+    .json({ msg: "please verify your email", email });
 };
+
+// VERIFY EMAIL
 
 const verifyEmail = async (req, res) => {
   const { email, verifyToken } = req.body;
@@ -59,6 +67,9 @@ const verifyEmail = async (req, res) => {
     .status(StatusCodes.OK)
     .json({ msg: "email verified succesfully,please login" });
 };
+
+// LOGIN USER
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -76,7 +87,7 @@ const loginUser = async (req, res) => {
   if (user.isVerified === false) {
     throw new UnauthenticatesError("please verify your email");
   }
-  const tokenUser = { userID: user._id };
+  const tokenUser = { userID: user._id, role: user.role };
   attashCookiesToResponse({ res, user: tokenUser });
   const newUser = {
     firstName: user.firstName,
@@ -85,9 +96,81 @@ const loginUser = async (req, res) => {
     wallet: user.wallet,
     joinDate: user.createdAt,
     phoneNumber: user.phoneNumber,
+    role: user.role,
   };
   res.status(StatusCodes.OK).json({ user: newUser });
 };
+
+// FORGOT PASSWORD REQUEST
+const forgotPasswordRequest = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    throw new BadRequestError("please provide email address");
+  }
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new BadRequestError("user with that email does not exist");
+  }
+  // sent forgot mail
+  const verifiedToken = crypto.randomBytes(40).toString("hex");
+  user.verifiedToken = verifiedToken;
+  await user.save();
+  await sendForgotPasswordMail({
+    firstName: user.firstName,
+    email: user.email,
+    verifiedToken,
+  });
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "check your email to reset your password" });
+};
+
+// FORGOT PASSWORD
+const forgotPassword = async (req, res) => {
+  const { password, confirmPassword, email, token } = req.body;
+  if (!password || !confirmPassword || !email || !token) {
+    throw new BadRequestError("please provide all fields");
+  }
+  if (password !== confirmPassword) {
+    throw new BadRequestError("password does not match please retype password");
+  }
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new BadRequestError("somthing went wrong");
+  }
+  if (token !== user.verifiedToken) {
+    throw new BadRequestError("somthing went wrong");
+  }
+
+  user.password = password;
+  user.verifiedToken = "";
+  await user.save();
+  // you can send email to user that email has been changed successfully
+  res.status(StatusCodes.OK).json({ msg: "password has been changed" });
+};
+
+// RESET PASSWORD
+const resetPassword = async (req, res) => {
+  const { password, newPassword } = req.body;
+  const userID = req.user.userID;
+  console.log(userID);
+  if (!password || !newPassword || !userID) {
+    throw new BadRequestError("please provide all fields");
+  }
+  const user = await User.findOne({ _id: userID });
+  const isPasswordCorrect = await user.comparePassword(password);
+  if (!isPasswordCorrect) {
+    throw new BadRequestError(
+      "provide correct password, to be able to change your password",
+    );
+  }
+  user.password = newPassword;
+  await user.save();
+  res.status(StatusCodes.OK).json({ msg: "password changed succesfully" });
+};
+
+// LOGOUT USER
 
 const logOutUser = (req, res) => {
   res.clearCookie("token", {
@@ -98,4 +181,12 @@ const logOutUser = (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "logged out successfully" });
 };
 
-export { registerUser, loginUser, verifyEmail, logOutUser };
+export {
+  registerUser,
+  loginUser,
+  verifyEmail,
+  logOutUser,
+  forgotPasswordRequest,
+  forgotPassword,
+  resetPassword,
+};
