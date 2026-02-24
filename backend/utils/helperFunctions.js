@@ -144,8 +144,8 @@ export const sendForgotPasswordMail = async ({
   email,
   firstName,
 }) => {
-  const origin = "http://localhost:5173";
-  // const origin = "http://biggiesubng.com";
+  // const origin = "http://localhost:5173";
+  const origin = "http://biggiesubng.com";
   const forgotPassword = `${origin}/forgottenpasswordemailverification?token=${verifiedToken}&email=${email}`;
   const message = `<p>Please click on the following link to reset your paswword : 
   <a href="${forgotPassword}">forgot password</a> </p>`;
