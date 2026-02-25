@@ -17,6 +17,7 @@ export type accountInitialState = {
   accountNumber: string;
   bankName: string;
   expiresIn: string;
+  createdAt: string;
   amount: number | string;
   trx_ref: string;
   status: string;
@@ -26,6 +27,7 @@ const accountinitialState: accountInitialState = {
   accountNumber: "",
   bankName: "",
   expiresIn: "",
+  createdAt: "",
   amount: "",
   trx_ref: "",
   status: "",
@@ -42,7 +44,7 @@ export const createVirtualAccountNumber = createAsyncThunk<
       { amount: data.amount },
       { withCredentials: true },
     );
-    console.log(resp.data.account_Details);
+    // console.log(resp.data.account_Details);
     return resp.data.account_Details;
   } catch (error) {
     if (isAxiosError(error)) {
@@ -96,6 +98,7 @@ export const accountSlice = createSlice({
         state.accountNumber = action.payload.account_number;
         state.bankName = action.payload.bank_name;
         state.expiresIn = action.payload.expiresIn;
+        state.createdAt = action.payload.createdAt;
         state.trx_ref = action.payload.txRef;
         state.amount = action.payload.amount;
       })
@@ -108,6 +111,7 @@ export const accountSlice = createSlice({
       })
       .addCase(fetchTransactionStatus.fulfilled, (state, action) => {
         ((state.isLoading = false), (state.status = action.payload.status));
+        toast(`your payment is ${action.payload.status}`);
       })
       .addCase(fetchTransactionStatus.rejected, (state) => {
         ((state.isLoading = false),

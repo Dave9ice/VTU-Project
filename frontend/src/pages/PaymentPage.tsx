@@ -11,15 +11,21 @@ import { useCountdown } from "@/hooks/countdown";
 import { formatTime } from "@/utils/localStorage";
 
 const PaymentPage = () => {
-  const { accountNumber, bankName, amount, trx_ref, expiresIn } = useSelector(
-    (state: RootState) => state.account,
-  );
+  const {
+    accountNumber,
+    bankName,
+    amount,
+    trx_ref,
+    expiresIn,
+    createdAt,
+    isLoading,
+  } = useSelector((state: RootState) => state.account);
   const [pollingInterval, setPollingInterval] = useState(0);
   const { data, isSuccess } = useGetTransactionStatusQuery(trx_ref, {
     skip: !trx_ref,
     pollingInterval,
   });
-  const secondsRemaining = useCountdown(expiresIn);
+  const timeRemaining = useCountdown(expiresIn, createdAt);
   // console.log("RAW expiresAt:", expiresIn);
   // console.log("Parsed expiresAt:", new Date(expiresIn));
   // console.log("Parsed ISO:", new Date(expiresIn).toISOString());
@@ -68,7 +74,7 @@ const PaymentPage = () => {
             <h1 className="text-xs md:text-sm">amount to pay</h1>
             <h1 className="font-bold text-lg">#{amount}.00</h1>
           </div>
-          <p>time remaining: {formatTime(secondsRemaining as number)}</p>
+          <p>time remaining: {formatTime(timeRemaining as number)}</p>
         </div>
         <p className="text-xs md:text-sm text-center">
           transfer to the account detail's below
@@ -86,7 +92,9 @@ const PaymentPage = () => {
           className="bg-destructive capitalize cursor-pointer"
           onClick={handleFetch}
         >
-          i have transfered the money
+          {isLoading
+            ? "checking payment status..."
+            : " i have transfered the money"}
         </Button>
       </Card>
     </section>

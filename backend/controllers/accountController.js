@@ -34,11 +34,13 @@ export const createVisualAccount = async (req, res) => {
       bank_name,
       account_number,
       expiry_date,
+      created_at,
       amount: flw_amount,
     } = resp.data.data;
     console.log("create account number resp:", resp.data.data);
-    const expiresIn = expiry_date.replace(" ", "T");
-    // const expiresIn = new Date(formattedExpireDate).getTime();
+    const frontEndExpiresTime = expiry_date.replace(" ", "T");
+    const frontEndeCreatedTime = created_at.replace(" ", "T");
+    const expiresIn = new Date(frontEndeCreatedTime).getTime();
     console.log("expires date:", expiresIn);
     // create transaction
     await Transaction.create({
@@ -58,7 +60,8 @@ export const createVisualAccount = async (req, res) => {
       account_Details: {
         bank_name,
         account_number,
-        expiresIn,
+        expiresIn: frontEndExpiresTime,
+        createdAt: frontEndeCreatedTime,
         txRef: tx_ref,
         amount: Number(flw_amount),
       },

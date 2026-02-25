@@ -1,57 +1,32 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useCountdown = (expiresAt: string | null) => {
-  // const calculateTimeLeft = () => {
-  //   if (!expiresAt) return;
-  //   return Math.max(
-  //     Math.floor((new Date(expiresAt).getTime() - Date.now()) / 1000),
-  //     0,
-  //   );
-  // };
-  // const [timeleft, setTimeLeft] = useState(calculateTimeLeft);
-  // useEffect(() => {
-  //   if (!expiresAt) return;
-  //   const interval = setInterval(() => {
-  //     setTimeLeft(calculateTimeLeft());
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, [expiresAt]);
-  // return timeleft;
+export const useCountdown = (
+  expiresAt: string | null,
+  createdAt: string | null,
+) => {
+  const calculateDuration = () => {
+    if (!createdAt || !expiresAt) return 0;
 
-  // Memoize calculation to avoid unnecessary re-renders
-  const calculateSecondsLeft = useCallback(() => {
-    if (!expiresAt) return 0;
+    const start = new Date(createdAt.replace(" ", "T")).getTime();
+    const end = new Date(expiresAt.replace(" ", "T")).getTime();
 
-    // Ensure format is ISO-compliant (YYYY-MM-DDTHH:mm:ss)
-    const targetTimeStr = expiresAt.replace(" ", "T");
-    const target = new Date(targetTimeStr).getTime();
-    const now = Date.now();
-    console.log("Original String:", expiresAt);
-    console.log(
-      "Target Date Object:",
-      new Date(expiresAt.replace(" ", "T")).toString(),
-    );
-    console.log("Current Date Object:", new Date().toString());
-    return Math.max(Math.floor((target - now) / 1000), 0);
-  }, [expiresAt]);
+    // This gives you exactly 3600 seconds (1 hour)
+    // regardless of what time the laptop thinks it is.
+    return Math.max(Math.floor((end - start) / 1000), 0);
+  };
 
-  const [secondsLeft, setSecondsLeft] = useState(calculateSecondsLeft());
+  const [timeLeft, setTimeLeft] = useState(calculateDuration());
 
   useEffect(() => {
-    if (!expiresAt) return;
-
-    // Initial sync
-    setSecondsLeft(calculateSecondsLeft());
+    // Sync when props change
+    setTimeLeft(calculateDuration());
 
     const interval = setInterval(() => {
-      const remaining = calculateSecondsLeft();
-      setSecondsLeft(remaining);
-
-      if (remaining <= 0) clearInterval(interval);
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [expiresAt, calculateSecondsLeft]);
+  }, [createdAt, expiresAt]);
 
-  return secondsLeft;
+  return timeLeft;
 };

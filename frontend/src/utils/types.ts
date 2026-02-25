@@ -104,11 +104,14 @@ export type accountFetchResult = {
   account_number: string;
   bank_name: string;
   expiresIn: string;
+  createdAt: string;
   txRef: string;
   amount: number;
 };
 export type transactionStatusResult = {
   status: string;
+  amount: string;
+  walletBalance: number;
 };
 
 export type statsResult = {
