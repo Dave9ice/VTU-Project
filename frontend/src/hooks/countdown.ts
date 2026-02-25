@@ -23,7 +23,8 @@ export const useCountdown = (expiresAt: string | null) => {
     if (!expiresAt) return 0;
 
     // Ensure format is ISO-compliant (YYYY-MM-DDTHH:mm:ss)
-    const target = new Date(expiresAt.replace(" ", "T")).getTime();
+    const targetTimeStr = expiresAt.replace(" ", "T") + "Z";
+    const target = new Date(targetTimeStr).getTime();
     const now = Date.now();
 
     return Math.max(Math.floor((target - now) / 1000), 0);
