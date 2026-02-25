@@ -26,7 +26,12 @@ export const useCountdown = (expiresAt: string | null) => {
     const targetTimeStr = expiresAt.replace(" ", "T");
     const target = new Date(targetTimeStr).getTime();
     const now = Date.now();
-
+    console.log("Original String:", expiresAt);
+    console.log(
+      "Target Date Object:",
+      new Date(expiresAt.replace(" ", "T")).toString(),
+    );
+    console.log("Current Date Object:", new Date().toString());
     return Math.max(Math.floor((target - now) / 1000), 0);
   }, [expiresAt]);
 
