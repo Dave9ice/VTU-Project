@@ -19,7 +19,7 @@ const PaymentPage = () => {
     skip: !trx_ref,
     pollingInterval,
   });
-  const timeLeft = useCountdown(expiresIn);
+  const secondsRemaining = useCountdown(data.expiresAt);
   // console.log("RAW expiresAt:", expiresIn);
   // console.log("Parsed expiresAt:", new Date(expiresIn));
   // console.log("Parsed ISO:", new Date(expiresIn).toISOString());
@@ -68,7 +68,7 @@ const PaymentPage = () => {
             <h1 className="text-xs md:text-sm">amount to pay</h1>
             <h1 className="font-bold text-lg">#{amount}.00</h1>
           </div>
-          <p>time remaining: {formatTime(timeLeft as number)}</p>
+          <p>time remaining: {formatTime(secondsRemaining as number)}</p>
         </div>
         <p className="text-xs md:text-sm text-center">
           transfer to the account detail's below
