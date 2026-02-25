@@ -19,7 +19,7 @@ const PaymentPage = () => {
     skip: !trx_ref,
     pollingInterval,
   });
-  const secondsRemaining = useCountdown(data.expiresAt);
+  const secondsRemaining = useCountdown(expiresIn);
   // console.log("RAW expiresAt:", expiresIn);
   // console.log("Parsed expiresAt:", new Date(expiresIn));
   // console.log("Parsed ISO:", new Date(expiresIn).toISOString());
