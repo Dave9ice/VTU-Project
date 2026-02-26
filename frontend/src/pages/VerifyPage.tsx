@@ -1,16 +1,12 @@
 import FormRow from "@/components/FormRow";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import {
-  clearState,
-  handleChange,
-  verifyUser,
-} from "@/features/user/userSlice";
+import { handleChange, verifyUser } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import type { userInitialState } from "@/utils/types";
 import { Link, useLocation } from "react-router-dom";
 
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { GrStatusGood } from "react-icons/gr";
 
 import { useDispatch, useSelector } from "react-redux";
