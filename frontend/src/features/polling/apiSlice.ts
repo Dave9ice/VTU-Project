@@ -12,7 +12,7 @@ export const transactionApi = createApi({
   endpoints: (builder) => ({
     // query profile
     getUserProfile: builder.query<{ user: User }, void>({
-      query: () => ({ url: "/user-profile" }),
+      query: () => ({ url: "/auth/user-profile" }),
       providesTags: ["User"],
       async onQueryStarted(_arg, { queryFulfilled }) {
         try {
