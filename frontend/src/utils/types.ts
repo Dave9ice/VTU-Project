@@ -12,6 +12,7 @@ export type userInitialState = {
   isLoading: boolean;
   showSideBar: boolean;
   succesMsg: string;
+  errorMsg: string;
   password: string;
   email: string;
   newPassword: string;

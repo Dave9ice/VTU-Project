@@ -79,6 +79,9 @@ const PaymentPage = () => {
 
   return (
     <section className="bg-secondary h-screen grid place-items-center">
+      <h2 className="text-2xl capitalize underline text-center">
+        please do not refresh page
+      </h2>
       <Card className="capitalize px-5 w-full max-w-3xl">
         <div className="bg-gray-100 flex justify-between">
           <div>

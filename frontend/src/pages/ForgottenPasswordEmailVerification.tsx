@@ -18,7 +18,9 @@ import { GrStatusGood } from "react-icons/gr";
 const ForgottenPasswordEmailVerification = () => {
   const [searchParams, _setSearchParams] = useSearchParams();
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { password, succesMsg } = useSelector((store: RootState) => store.user);
+  const { password, succesMsg, isLoading } = useSelector(
+    (store: RootState) => store.user,
+  );
   const dispatch = useDispatch<AppDispatch>();
   const token = searchParams.get("token") as string;
   const email = searchParams.get("email") as string;
@@ -76,11 +78,12 @@ const ForgottenPasswordEmailVerification = () => {
             />
           </div>
           <Button
+            disabled={isLoading}
             type="button"
             onClick={handleSubmit}
             className="w-full mt-4 capitalize cursor-pointer"
           >
-            change password
+            {isLoading ? "loading..." : "change password"}
           </Button>
         </form>
       </Card>

@@ -8,19 +8,21 @@ import {
 } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import type { userInitialState } from "@/utils/types";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useEffect } from "react";
 import { GrStatusGood } from "react-icons/gr";
 
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
+import { MdCancel } from "react-icons/md";
 
 const VerifyPage = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
-  const { succesMsg, isLoading, otp } = useSelector(
+  const { succesMsg, isLoading, otp, errorMsg } = useSelector(
     (store: RootState) => store.user,
   );
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +40,9 @@ const VerifyPage = () => {
   useEffect(() => {
     dispatch(clearState());
   }, []);
+  useEffect(() => {
+    navigate("/login");
+  }, [succesMsg]);
   if (succesMsg) {
     return (
       <section className="h-screen grid place-items-center bg-secondary">
@@ -51,6 +56,18 @@ const VerifyPage = () => {
     );
   }
   // remember to include unsuccesful verification
+  if (errorMsg) {
+    return (
+      <section className="h-screen grid place-items-center bg-secondary">
+        <div className="grid">
+          <span className="text-7xl justify-self-center text-destructive">
+            <MdCancel />
+          </span>
+          <p className="capitalize font-bold">{errorMsg}</p>
+        </div>
+      </section>
+    );
+  }
   return (
     <main className="bg-secondary h-screen grid place-items-center">
       <form className="w-full max-w-2xl px-4">

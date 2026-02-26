@@ -27,6 +27,7 @@ const initialState: userInitialState = {
   isLoading: false,
   showSideBar: false,
   succesMsg: "",
+  errorMsg: "",
   password: "",
   email: "",
   newPassword: "",
@@ -261,6 +262,7 @@ const userSlice = createSlice({
         ((state.isLoading = false),
           // (state.succesMsg =
           //   action.payload?.msg || "somthing went wrong verifying");
+          (state.errorMsg = action.payload?.msg || "could not verify user"),
           toast(action.payload?.msg));
       })
       .addCase(resetPassword.pending, (state) => {
