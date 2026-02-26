@@ -36,9 +36,9 @@ const VerifyPage = () => {
 
     dispatch(verifyUser({ token: otp, email }));
   };
-  useEffect(() => {
-    dispatch(clearState());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(clearState());
+  // }, []);
 
   if (succesMsg) {
     return (
