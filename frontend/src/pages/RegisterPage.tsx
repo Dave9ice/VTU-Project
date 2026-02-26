@@ -31,7 +31,7 @@ const RegisterPage = () => {
   const { isLoading, succesMsg, email } = useSelector(
     (store: RootState) => store.user,
   );
-  console.log(succesMsg, email);
+  // console.log(succesMsg, email);
   const registerFn = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const {

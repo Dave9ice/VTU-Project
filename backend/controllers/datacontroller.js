@@ -16,7 +16,7 @@ const getAllProvider = async (req, res) => {
         item.startsWith("MTN ") ||
         item.startsWith("GLO ") ||
         item.startsWith("AIRTEL") ||
-        item.startsWith("9MOBILE")
+        item.startsWith("9MOBILE"),
     );
 
   res.status(StatusCodes.OK).json({ provider });

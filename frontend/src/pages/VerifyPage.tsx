@@ -8,7 +8,7 @@ import {
 } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import type { userInitialState } from "@/utils/types";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { useEffect } from "react";
 import { GrStatusGood } from "react-icons/gr";
@@ -19,7 +19,6 @@ import { MdCancel } from "react-icons/md";
 
 const VerifyPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
   const { succesMsg, isLoading, otp, errorMsg } = useSelector(
@@ -40,9 +39,7 @@ const VerifyPage = () => {
   useEffect(() => {
     dispatch(clearState());
   }, []);
-  useEffect(() => {
-    navigate("/login");
-  }, [succesMsg]);
+
   if (succesMsg) {
     return (
       <section className="h-screen grid place-items-center bg-secondary">
@@ -51,6 +48,11 @@ const VerifyPage = () => {
             <GrStatusGood />
           </span>
           <p className="capitalize font-bold">{succesMsg}</p>
+          <Button asChild>
+            <Link to={"/login"} className="capitalize">
+              back to login
+            </Link>
+          </Button>
         </div>
       </section>
     );
@@ -64,6 +66,11 @@ const VerifyPage = () => {
             <MdCancel />
           </span>
           <p className="capitalize font-bold">{errorMsg}</p>
+          <Button asChild>
+            <Link to={"/register"} className="capitalize">
+              go back to register
+            </Link>
+          </Button>
         </div>
       </section>
     );
@@ -73,6 +80,15 @@ const VerifyPage = () => {
       <form className="w-full max-w-2xl px-4">
         <Card className="px-4">
           <h2 className="text-2xl text-center">verify user</h2>
+          <div className="grid capitalize">
+            <label>email</label>
+            <input
+              type="text"
+              disabled={email !== ""}
+              value={email}
+              className="border rounded-sm p-1.5"
+            />
+          </div>
           <FormRow
             name="otp"
             value={otp}
