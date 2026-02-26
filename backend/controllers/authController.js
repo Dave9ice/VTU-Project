@@ -13,6 +13,7 @@ import {
   sendForgotPasswordMail,
   sendVerificationMail,
 } from "../utils/helperFunctions.js";
+import { STATUS_CODES } from "http";
 // REGISTER USER
 const registerUser = async (req, res) => {
   const { password, firstName, lastName, email, phoneNumber } = req.body;
@@ -170,8 +171,29 @@ const resetPassword = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "password changed succesfully" });
 };
 
-// LOGOUT USER
+// GET USER PROFILE
+const getUserProfile = async (req, res) => {
+  const userID = req.user.userID;
+  if (!userID) {
+    throw new UnauthenticatesError("unable to get user profile");
+  }
+  const user = await User.findOne({ _id: userID });
+  if (!user) {
+    throw new BadRequestError("could not get user profile");
+  }
+  const newUser = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    wallet: user.wallet,
+    joinDate: user.createdAt,
+    phoneNumber: user.phoneNumber,
+    role: user.role,
+  };
+  res.status(StatusCodes.OK).json({ user: newUser });
+};
 
+// LOGOUT USER
 const logOutUser = (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
@@ -189,4 +211,5 @@ export {
   forgotPasswordRequest,
   forgotPassword,
   resetPassword,
+  getUserProfile,
 };

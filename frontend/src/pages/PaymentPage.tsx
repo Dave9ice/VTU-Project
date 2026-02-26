@@ -26,16 +26,12 @@ const PaymentPage = () => {
     pollingInterval,
   });
   const timeRemaining = useCountdown(expiresIn, createdAt);
-  // console.log("RAW expiresAt:", expiresIn);
-  // console.log("Parsed expiresAt:", new Date(expiresIn));
-  // console.log("Parsed ISO:", new Date(expiresIn).toISOString());
-  // console.log("Now ISO:", new Date().toISOString());
   //   POLLING
   useEffect(() => {
     if (!isSuccess) return;
 
-    if (data?.transaction?.status === "Pending") {
-      setPollingInterval(5000); // start polling
+    if (data?.transaction?.status === "Pending" && timeRemaining !== 0) {
+      setPollingInterval(10000); // start polling
     } else {
       setPollingInterval(0); // stop polling
     }
@@ -57,6 +53,22 @@ const PaymentPage = () => {
             your payment has been successfully processed now you can return back
             to homepage to perform transactions
           </p>
+          <Button>
+            <Link to={`/dashboard`}>continue to homepage</Link>
+          </Button>
+        </Card>
+      </section>
+    );
+  }
+  if (timeRemaining < 0) {
+    return (
+      <section className="bg-secondary h-screen grid place-items-center">
+        <Card className=" w-full max-w-3xl grid text-center bg-green-100 shadow-2xl p-4">
+          <h2 className="text-7xl justify-self-center text-green-800">
+            <IoCheckmarkCircle />
+          </h2>
+          <h2>payment window has expired</h2>
+          <p>please make return to dashboard to fund again</p>
           <Button>
             <Link to={`/dashboard`}>continue to homepage</Link>
           </Button>
