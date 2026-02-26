@@ -73,6 +73,7 @@ const RegisterPage = () => {
     if (succesMsg) {
       // const email = "hello@gmail.c;
       navigate(`/verify-account`, { state: { email } });
+      dispatch(clearState());
     }
   }, [succesMsg]);
   return (
