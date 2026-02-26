@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useGetUserProfileQuery } from "@/features/polling/apiSlice";
 import { handleChange, resetPassword } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import type { userInitialState } from "@/utils/types";
@@ -17,9 +18,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const ProfilePage = () => {
-  const { user, newPassword, password } = useSelector(
+  const { newPassword, password } = useSelector(
     (store: RootState) => store.user,
   );
+  const { data } = useGetUserProfileQuery();
+  const user = data?.user;
 
   const dispatch = useDispatch<AppDispatch>();
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

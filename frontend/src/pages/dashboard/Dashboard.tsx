@@ -7,12 +7,10 @@ import { FaDroplet } from "react-icons/fa6";
 import { TfiWrite } from "react-icons/tfi";
 
 import DashboardModal from "@/components/DashboardModal";
-// import { useSelector } from "react-redux";
-// import { type RootState } from "@/Store";
+
 import { useGetUserProfileQuery } from "@/features/polling/apiSlice";
 
 const Dashboard = () => {
-  // const { user } = useSelector((store: RootState) => store.user);
   const { data } = useGetUserProfileQuery();
   return (
     <section className="py-8 px-4">

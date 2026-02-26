@@ -17,7 +17,6 @@ export const transactionApi = createApi({
       async onQueryStarted(_arg, { queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          console.log(data);
           // Keep LocalStorage in sync whenever profile is fetched
           localStorage.setItem("user", JSON.stringify(data.user));
         } catch (err) {}
