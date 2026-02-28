@@ -17,6 +17,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatch, type RootState } from "@/Store";
 import { useNavigate } from "react-router-dom";
+import { FaArrowRotateRight } from "react-icons/fa6";
 
 const DashboardModal = () => {
   const [toggle, setToggle] = useState({
@@ -28,7 +29,7 @@ const DashboardModal = () => {
     (store: RootState) => store.account,
   ) as {
     amount: number;
-    isLoading: Boolean;
+    isLoading: boolean;
     accountNumber: string;
     bankName: string;
   };
@@ -114,7 +115,7 @@ const DashboardModal = () => {
           <div className={`${toggle.toggleBank ? "block" : "hidden"}`}>
             <p className={`${!amount ? "hidden" : ""}`}>
               {" "}
-              you will receive {Number(amount) - 50}
+              {/* you will receive {Number(amount) - 50} */}
             </p>
             <Input
               type="number"
@@ -130,7 +131,13 @@ const DashboardModal = () => {
             disabled={cardAmount === ""}
             className={`${toggle.toggleCard ? "" : "hidden"}`}
           >
-            proceed
+            {isLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "process"
+            )}
           </Button>
           {/* bank transfer button */}
           <Button
@@ -138,7 +145,13 @@ const DashboardModal = () => {
             disabled={!amount || isLoading === true}
             className={`${toggle.toggleBank ? "" : "hidden"}`}
           >
-            {isLoading === true ? "Loading..." : "proceed"}
+            {isLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "proceed"
+            )}
           </Button>
         </div>
       </DialogContent>
