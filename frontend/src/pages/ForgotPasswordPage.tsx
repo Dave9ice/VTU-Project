@@ -12,6 +12,7 @@ import {
 } from "@/features/user/userSlice";
 import { GrStatusGood } from "react-icons/gr";
 import { useEffect } from "react";
+import { FaArrowRotateRight } from "react-icons/fa6";
 
 const ForgotPasswordPage = () => {
   const { email, isLoading, succesMsg } = useSelector(
@@ -57,8 +58,15 @@ const ForgotPasswordPage = () => {
             type="button"
             onClick={() => dispatch(forgotPasswordRequest({ email }))}
             className="cursor-pointer"
+            disabled={isLoading}
           >
-            {isLoading ? "loading..." : "forgot password"}
+            {isLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "forgot password"
+            )}
           </Button>
         </Card>
       </form>

@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { clearState, registerUser } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import React, { useEffect, useState } from "react";
+import { FaArrowRotateRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -79,10 +80,13 @@ const RegisterPage = () => {
   return (
     <section className="grid place-items-center h-screen bg-secondary">
       <form className="w-4/5 max-w-3xl" onSubmit={registerFn}>
-        <Card className="p-8">
-          <h2 className="capitalize text-center text-2xl sm:text-2xl md:text-4xl">
-            Register
+        <Card className="p-8 gap-0">
+          <h2 className="capitalize text-center text-2xl sm:text-2xl md:text-4xl tracking-tighter">
+            hello! let get started
           </h2>
+          <h3 className="text-xs mb-4 capitalize text-center md:text-sm">
+            start by creating an account
+          </h3>
           <FormRow
             name="firstName"
             type="text"
@@ -126,8 +130,17 @@ const RegisterPage = () => {
             value={values.verifyPassword}
             handleChange={handleChange}
           />
-          <Button className="capitalize" disabled={isLoading}>
-            {isLoading ? "registering..." : "register"}
+          <Button
+            className="capitalize mt-4 cursor-pointer"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "register"
+            )}
           </Button>
           <button className="text-center cursor-pointer hover:text-gray-500">
             <Link to="/login">already have account?</Link>

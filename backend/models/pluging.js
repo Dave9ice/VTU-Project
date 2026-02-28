@@ -6,8 +6,12 @@ const PluginSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    purchasetoken: {
+      type: String,
+      default: "",
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("PluginToken", PluginSchema);

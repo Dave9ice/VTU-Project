@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useGetTransactionStatusQuery } from "@/features/polling/apiSlice";
 import { useCountdown } from "@/hooks/countdown";
 import { formatTime } from "@/utils/localStorage";
+import { FaArrowRotateRight } from "react-icons/fa6";
 
 const PaymentPage = () => {
   const {
@@ -106,10 +107,15 @@ const PaymentPage = () => {
         <Button
           className="bg-destructive capitalize cursor-pointer"
           onClick={handleFetch}
+          disabled={isLoading}
         >
-          {isLoading
-            ? "checking payment status..."
-            : " i have transfered the money"}
+          {isLoading ? (
+            <span className="animate-spin">
+              <FaArrowRotateRight />
+            </span>
+          ) : (
+            "i have transfered the money"
+          )}
         </Button>
       </Card>
     </section>

@@ -72,6 +72,18 @@ export const loginInPlugin = async () => {
     throw new error();
   }
 };
+export const loginSecondPlugin = async () => {
+  try {
+    const resp = await axios.post("https://pluginng.com/api/login", {
+      email: process.env.PLUGIN_NG_Buy_EMAIL,
+      password: process.env.PLUGIN_NG_Buy_PASSWORD,
+    });
+    // console.log(resp.data);
+    return resp.data.data.token;
+  } catch (error) {
+    throw new error();
+  }
+};
 
 export const updateToken = async () => {
   const token = await loginInPlugin();
@@ -81,6 +93,15 @@ export const updateToken = async () => {
     { new: true },
   );
   return token;
+};
+export const updatePurchaseToken = async () => {
+  const purchasetoken = await loginSecondPlugin();
+  await PluginToken.findOneAndUpdate(
+    { _id: process.env.PURCHASE_TOKEN_ID },
+    { purchasetoken },
+    { new: true },
+  );
+  return purchasetoken;
 };
 
 export const createTransationInDB = async ({

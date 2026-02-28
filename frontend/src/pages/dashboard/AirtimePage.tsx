@@ -14,17 +14,27 @@ import {
 } from "@/features/airtime/airtimeSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import { useEffect } from "react";
+import { FaArrowRotateRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import logo from "../../assets/images/logo-favicon.png";
 
 const AirtimePage = () => {
-  const { charge, provider, phoneNumber, amount, providerArr, subcategory_id } =
-    useSelector((store: RootState) => store.airtime);
+  const {
+    charge,
+    provider,
+    phoneNumber,
+    amount,
+    providerArr,
+    subcategory_id,
+    isloading,
+    localLoading,
+  } = useSelector((store: RootState) => store.airtime);
   // console.log(provider);
   const dispatch = useDispatch<AppDispatch>();
   const handleAirtimeChange = (
     e:
       | React.ChangeEvent<HTMLSelectElement>
-      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLInputElement>,
   ) => {
     const name = e.target.name as keyof airtimeInitialState;
     const value = e.target.value;
@@ -39,7 +49,7 @@ const AirtimePage = () => {
         subcategory_id,
         phoneNumber,
         provider,
-      })
+      }),
     );
   };
 
@@ -54,6 +64,13 @@ const AirtimePage = () => {
   useEffect(() => {
     dispatch(handlePurpose(provider));
   }, [amount, provider]);
+  if (isloading) {
+    return (
+      <section className="grid place-items-center h-screen">
+        <img src={logo} alt="logo" className="animate-bounce" />
+      </section>
+    );
+  }
   return (
     <section className="h-screen py-8 px-4 md:px-8 lg:px-10">
       <PageTitle title="buy airtime" text="airtime" />
@@ -87,8 +104,19 @@ const AirtimePage = () => {
             disabled={true}
             value={charge}
           />
-          <Button type="button" onClick={handlePayment}>
-            process
+          <Button
+            type="button"
+            onClick={handlePayment}
+            className="capitalize cursor-pointer"
+            disabled={localLoading}
+          >
+            {localLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "purchase airtime"
+            )}
           </Button>
         </Card>
       </form>

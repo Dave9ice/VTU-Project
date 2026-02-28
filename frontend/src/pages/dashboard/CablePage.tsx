@@ -15,11 +15,14 @@ import {
 } from "@/features/cable/cableSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import React, { useEffect } from "react";
+import { FaArrowRotateRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import logo from "../../assets/images/logo-favicon.png";
 
 const CablePage = () => {
   const {
     smartCardNumber,
+    localLoading,
     cable,
     cablePlans,
     isLoading,
@@ -29,12 +32,13 @@ const CablePage = () => {
     selectedCablePlan,
     verifyResult,
     cableVariationCode,
+    verifyLoading,
   } = useSelector((store: RootState) => store.cable);
   const dispatch = useDispatch<AppDispatch>();
   const handleCableChange = (
     e:
       | React.ChangeEvent<HTMLSelectElement>
-      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLInputElement>,
   ) => {
     const name = e.target.name as keyof cableInitialState;
     const value = e.target.value;
@@ -50,7 +54,7 @@ const CablePage = () => {
         phoneNumber,
         smartCardNumber,
         cableVariationCode,
-      })
+      }),
     );
   };
 
@@ -64,6 +68,13 @@ const CablePage = () => {
   useEffect(() => {
     dispatch(clearState());
   }, []);
+  if (isLoading) {
+    return (
+      <section className="grid place-items-center h-screen">
+        <img src={logo} alt="logo" className="animate-bounce" />
+      </section>
+    );
+  }
   return (
     <section className="h-screen py-8 px-4 md:px-8 lg:px-10">
       <PageTitle title="cable bills" text="cable bills" />
@@ -91,11 +102,17 @@ const CablePage = () => {
               type="button"
               onClick={() =>
                 dispatch(
-                  verifyCableCard({ cable, cableNumber: smartCardNumber })
+                  verifyCableCard({ cable, cableNumber: smartCardNumber }),
                 )
               }
             >
-              {isLoading ? "verifying card..." : "verify"}
+              {verifyLoading ? (
+                <span className="animate-spin">
+                  <FaArrowRotateRight />
+                </span>
+              ) : (
+                "verify"
+              )}
             </Button>
             <h2
               className={`${
@@ -125,8 +142,18 @@ const CablePage = () => {
             handleChange={handleCableChange}
           />
           <FormRow type="text" name="charge" value={charge} disabled={true} />
-          <Button type="button" onClick={handlePayment}>
-            process
+          <Button
+            type="button"
+            onClick={handlePayment}
+            className="capitalize cursor-pointer"
+          >
+            {localLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "pay cable"
+            )}
           </Button>
         </Card>
       </form>

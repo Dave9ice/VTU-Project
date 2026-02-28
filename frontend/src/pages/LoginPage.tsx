@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import favicon from "../assets/images/logo-favicon.png";
 import { toast } from "sonner";
+import { FaArrowRotateRight } from "react-icons/fa6";
 
 type loginState = {
   email: string;
@@ -69,7 +70,13 @@ const LoginPage = () => {
             handleChange={handleChange}
           />
           <Button className="capitalize" disabled={isLoading}>
-            {isLoading ? "login In..." : "login"}
+            {isLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "login"
+            )}
           </Button>
           <div className="flex gap-x-4">
             <button className="text-center cursor-pointer hover:text-gray-500 hover:underline capitalize">

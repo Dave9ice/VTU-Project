@@ -28,7 +28,7 @@ const purchaseData = async (req, res) => {
   const network = detectNetwork(phoneNumber);
   if (newProvider !== network) {
     throw new BadRequestError(
-      `${phoneNumber} is not an/a ${newProvider} number`
+      `${phoneNumber} is not an/a ${newProvider} number`,
     );
   }
 

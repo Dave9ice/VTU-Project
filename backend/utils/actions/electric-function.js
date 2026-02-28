@@ -1,5 +1,9 @@
 import axios from "axios";
-import { loginInPlugin, updateToken } from "../helperFunctions.js";
+import {
+  loginInPlugin,
+  updatePurchaseToken,
+  updateToken,
+} from "../helperFunctions.js";
 import PluginToken from "../../models/pluging.js";
 
 export const verifyMeterNoFn = async ({ cardno, plan, type }) => {
@@ -9,7 +13,7 @@ export const verifyMeterNoFn = async ({ cardno, plan, type }) => {
     const resp = await axios.post(
       "https://pluginng.com/api/verify/card",
       { plan, cardno, type },
-      { headers: { Authorization: `Bearer ${token}` } }
+      { headers: { Authorization: `Bearer ${token}` } },
     );
     return resp.data;
   } catch (error) {
@@ -23,7 +27,7 @@ export const verifyMeterNoFn = async ({ cardno, plan, type }) => {
             cardno,
             type,
           },
-          { headers: { Authorization: `Bearer ${token}` } }
+          { headers: { Authorization: `Bearer ${token}` } },
         );
         // console.log(resp.data);
         return retryResp.data;
@@ -44,7 +48,7 @@ export const fetchelectricPlan = async (provider) => {
   try {
     const resp = await axios.get(
       `https://pluginng.com/api/fetch/bouquet?plan=${provider}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      { headers: { Authorization: `Bearer ${token}` } },
     );
     return resp.data;
   } catch (error) {
@@ -53,7 +57,7 @@ export const fetchelectricPlan = async (provider) => {
         const token = await updateToken();
         const retryResp = await axios.get(
           `https://pluginng.com/api/fetch/bouquet?plan=${provider}`,
-          { headers: { Authorization: `Bearer ${token}` } }
+          { headers: { Authorization: `Bearer ${token}` } },
         );
         // console.log(resp.data);
         return retryResp.data;
@@ -77,7 +81,7 @@ export const buyElectricity = async ({
   custom_reference,
 }) => {
   const data = await PluginToken.find({});
-  const token = data[0].token;
+  const token = data[1].purchasetoken;
 
   try {
     const resp = await axios.post(
@@ -91,13 +95,13 @@ export const buyElectricity = async ({
         phonenumber,
         custom_reference,
       },
-      { headers: { Authorization: `Bearer ${token}` } }
+      { headers: { Authorization: `Bearer ${token}` } },
     );
     return resp.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response.status === 401) {
-        const token = await updateToken();
+        const token = await updatePurchaseToken();
         const retryResp = await axios.post(
           "https://pluginng.com/api/purchase/electricity",
           {
@@ -109,7 +113,7 @@ export const buyElectricity = async ({
             phonenumber,
             custom_reference,
           },
-          { headers: { Authorization: `Bearer ${token}` } }
+          { headers: { Authorization: `Bearer ${token}` } },
         );
         // console.log(resp.data);
         return retryResp.data;
@@ -130,7 +134,7 @@ export const fetchElectricityFn = async (req, res) => {
   try {
     const resp = await axios.get(
       "https://pluginng.com/api/fetch/bouquet?plan=Electricity",
-      { headers: { Authorization: `Bearer ${token}` } }
+      { headers: { Authorization: `Bearer ${token}` } },
     );
     return resp.data;
   } catch (error) {

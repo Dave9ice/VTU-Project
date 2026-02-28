@@ -7,16 +7,25 @@ import { clearDataState, handleChange } from "@/features/data/dataSlice";
 import type { RootState } from "@/Store";
 import type { dataInitialState } from "@/utils/types";
 import React, { useEffect } from "react";
+import { FaArrowRotateRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import logo from "../../assets/images/logo-favicon.png";
 
 const ExamPage = () => {
-  const { examType, resultType, resultTypeArr, amount, phoneNumber } =
-    useSelector((store: RootState) => store.data);
+  const {
+    examType,
+    resultType,
+    resultTypeArr,
+    amount,
+    phoneNumber,
+    isLoading,
+    localLoading,
+  } = useSelector((store: RootState) => store.data);
   const dispatch = useDispatch();
   const handleExamChange = (
     e:
       | React.ChangeEvent<HTMLSelectElement>
-      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLInputElement>,
   ) => {
     const name = e.target.name as keyof dataInitialState;
     const value = e.target.value;
@@ -25,6 +34,13 @@ const ExamPage = () => {
   useEffect(() => {
     dispatch(clearDataState());
   }, []);
+  if (isLoading) {
+    return (
+      <section className="grid place-items-center h-screen">
+        <img src={logo} alt="logo" className="animate-bounce" />
+      </section>
+    );
+  }
   return (
     <section className="h-screen py-8 px-4 md:px-8 lg:px-10">
       <PageTitle title="Exam Pin" text="text pin" />
@@ -49,7 +65,15 @@ const ExamPage = () => {
           />
           <FormRow name="amount" value={amount} type="number" disabled={true} />
           <FormRow name="phoneNumber" value={phoneNumber} type="number" />
-          <Button>process</Button>
+          <Button disabled={isLoading}>
+            {localLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "purchase exam pin"
+            )}
+          </Button>
         </Card>
       </form>
     </section>

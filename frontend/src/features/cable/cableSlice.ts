@@ -12,6 +12,8 @@ import { url } from "@/utils/links";
 
 export type cableInitialState = {
   isLoading: boolean;
+  localLoading: boolean;
+  verifyLoading: boolean;
   smartCardNumber: string;
   cable: string;
   cablePlans: string[] | [];
@@ -26,6 +28,8 @@ export type cableInitialState = {
 
 const initialState: cableInitialState = {
   isLoading: false,
+  localLoading: false,
+  verifyLoading: false,
   smartCardNumber: "",
   cable: "",
   cablePlans: [],
@@ -101,7 +105,7 @@ export const cablePayment = createAsyncThunk<
         variation_code: cableVariationCode,
         phonenumber: phoneNumber,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     );
     return resp.data;
   } catch (error) {
@@ -121,7 +125,7 @@ const cableSlice = createSlice({
     },
     handleChange: <K extends keyof cableInitialState>(
       state: cableInitialState,
-      action: PayloadAction<{ name: K; value: string }>
+      action: PayloadAction<{ name: K; value: string }>,
     ) => {
       const { name, value } = action.payload;
       if (name === "amount") {
@@ -130,7 +134,7 @@ const cableSlice = createSlice({
     },
     handlePurpose: (
       state: cableInitialState,
-      action: PayloadAction<String>
+      action: PayloadAction<String>,
     ) => {
       const airtime = action.payload;
       if (airtime === "dstv") {
@@ -146,7 +150,7 @@ const cableSlice = createSlice({
     updateCableFields: (state, action) => {
       const passedValue = action.payload;
       const findValue = state.cableResult.find(
-        (item) => item.name === passedValue
+        (item) => item.name === passedValue,
       );
       state.cableVariationCode = findValue ? findValue.variation_code : "";
       state.amount = Number(findValue?.variation_amount);
@@ -165,18 +169,18 @@ const cableSlice = createSlice({
           state.isLoading = false;
           state.cablePlans = newCablePlans;
           state.cableResult = action.payload;
-        }
+        },
       )
       .addCase(verifyCableCard.pending, (state) => {
-        state.isLoading = true;
+        state.verifyLoading = true;
       })
       .addCase(verifyCableCard.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.verifyLoading = false;
 
         state.verifyResult = action.payload;
       })
       .addCase(verifyCableCard.rejected, (state, action) => {
-        state.isLoading = false;
+        state.verifyLoading = false;
         state.verifyResult = action.payload?.msg;
         toast(action.payload?.msg);
       })

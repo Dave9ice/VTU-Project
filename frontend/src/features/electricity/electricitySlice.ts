@@ -11,7 +11,9 @@ import { toast } from "sonner";
 import type { ApiError } from "../user/userSlice";
 
 export type electricityInitialState = {
-  isLoading: Boolean;
+  isLoading: boolean;
+  localLoading: boolean;
+  verifyLoading: boolean;
   electricProvider: string;
   electricProviderType: string;
   amount: string | number;
@@ -22,6 +24,8 @@ export type electricityInitialState = {
 };
 const initialState: electricityInitialState = {
   isLoading: false,
+  localLoading: false,
+  verifyLoading: false,
   electricProvider: "",
   electricProviderType: "",
   amount: "",
@@ -76,7 +80,7 @@ export const payElectricBills = createAsyncThunk<
         amount,
         charge,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     );
     return resp.data;
   } catch (error) {
@@ -96,7 +100,7 @@ const electricitySlice = createSlice({
     },
     handleChange: <K extends keyof electricityInitialState>(
       state: electricityInitialState,
-      action: PayloadAction<{ name: K; value: string }>
+      action: PayloadAction<{ name: K; value: string }>,
     ) => {
       const { name, value } = action.payload;
       if (name === "amount") {
@@ -105,7 +109,7 @@ const electricitySlice = createSlice({
     },
     checkElectricProviderPercentage: (state, action: PayloadAction<string>) => {
       const { percent } = electricProvider.filter(
-        (item) => item.provider === action.payload
+        (item) => item.provider === action.payload,
       )[0];
       if (percent === undefined) {
         return initialState;
@@ -116,15 +120,15 @@ const electricitySlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(verifyMeterNo.pending, (state) => {
-        state.isLoading = true;
+        state.verifyLoading = true;
       })
       .addCase(verifyMeterNo.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.verifyLoading = false;
 
         state.verifyResult = action.payload;
       })
       .addCase(verifyMeterNo.rejected, (state, action) => {
-        state.isLoading = false;
+        state.verifyLoading = false;
         state.verifyResult = action.payload?.msg;
         toast(action.payload?.msg);
       })

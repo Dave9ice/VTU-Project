@@ -23,6 +23,7 @@ import TransactionPage from "./pages/admin/TransactionPage";
 import ForgottenPasswordEmailVerification from "./pages/ForgottenPasswordEmailVerification";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import PageWrapper from "./components/PageWrapper";
 
 function App() {
   return (
@@ -33,15 +34,54 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Route>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/verify-account" element={<VerifyPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route
+          path="/login"
+          element={
+            <PageWrapper>
+              <LoginPage />
+            </PageWrapper>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PageWrapper>
+              <RegisterPage />
+            </PageWrapper>
+          }
+        />
+        <Route
+          path="/verify-account"
+          element={
+            <PageWrapper>
+              <VerifyPage />
+            </PageWrapper>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <PageWrapper>
+              <ForgotPasswordPage />
+            </PageWrapper>
+          }
+        />
         <Route
           path="/forgottenpasswordemailverification"
-          element={<ForgottenPasswordEmailVerification />}
+          element={
+            <PageWrapper>
+              <ForgottenPasswordEmailVerification />
+            </PageWrapper>
+          }
         />
-        <Route path="/payment" element={<PaymentPage />} />
+        <Route
+          path="/payment"
+          element={
+            <PageWrapper>
+              <PaymentPage />
+            </PageWrapper>
+          }
+        />
         {/* USER ROUTES */}
         <Route
           path="/dashboard"

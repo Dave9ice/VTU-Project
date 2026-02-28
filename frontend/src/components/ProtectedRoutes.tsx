@@ -4,7 +4,7 @@ import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const INACTIVITY_TIME = 3 * 60 * 1000;
+const INACTIVITY_TIME = 15 * 60 * 1000;
 const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
   const { user } = useSelector((state: RootState) => state.user);
   //   console.log(user);

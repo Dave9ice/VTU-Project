@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { GrStatusGood } from "react-icons/gr";
+import { FaArrowRotateRight } from "react-icons/fa6";
 
 const ForgottenPasswordEmailVerification = () => {
   const [searchParams, _setSearchParams] = useSearchParams();
@@ -83,7 +84,13 @@ const ForgottenPasswordEmailVerification = () => {
             onClick={handleSubmit}
             className="w-full mt-4 capitalize cursor-pointer"
           >
-            {isLoading ? "loading..." : "change password"}
+            {isLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "change password"
+            )}
           </Button>
         </form>
       </Card>

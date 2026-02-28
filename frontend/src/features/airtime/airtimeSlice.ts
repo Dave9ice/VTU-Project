@@ -11,7 +11,8 @@ import { toast } from "sonner";
 import type { ApiError } from "../user/userSlice";
 
 export type airtimeInitialState = {
-  isloading: Boolean;
+  isloading: boolean;
+  localLoading: boolean;
   charge: number;
   amount: string | number;
   phoneNumber: string;
@@ -22,6 +23,7 @@ export type airtimeInitialState = {
 };
 const initialState: airtimeInitialState = {
   isloading: false,
+  localLoading: false,
   charge: 0,
   amount: "",
   phoneNumber: "",
@@ -65,7 +67,7 @@ export const purchaseAirtime = createAsyncThunk<
         subcategory_id,
         provider,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     );
     return resp.data;
   } catch (error) {
@@ -85,7 +87,7 @@ export const airtimeSlice = createSlice({
     },
     handleChange: <K extends keyof airtimeInitialState>(
       state: airtimeInitialState,
-      action: PayloadAction<{ name: K; value: string }>
+      action: PayloadAction<{ name: K; value: string }>,
     ) => {
       const { name, value } = action.payload;
       if (name === "amount") {
@@ -94,7 +96,7 @@ export const airtimeSlice = createSlice({
     },
     handlePurpose: (
       state: airtimeInitialState,
-      action: PayloadAction<String>
+      action: PayloadAction<String>,
     ) => {
       const airtime = action.payload;
       if (airtime === "MTN" || "AIRTEL") {

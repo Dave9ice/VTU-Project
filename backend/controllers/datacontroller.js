@@ -32,9 +32,10 @@ const getSpecificData = async (req, res) => {
     const outerFilter = product.title === provider;
     if (outerFilter) {
       product.plan = product.plan.map((plansAmount) => {
+        // console.log(plansAmount);
         const { amount } = plansAmount;
-        const newAmount = Math.ceil(Number(amount) * 1.03);
-        return `${plansAmount.plan}-#${newAmount}`;
+        // const newAmount = Math.ceil(Number(amount) * 1.03);
+        return `${plansAmount.plan}-#${amount}`;
       });
       return true;
     }

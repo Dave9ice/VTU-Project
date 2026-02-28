@@ -36,6 +36,7 @@ export type dataInitialState = {
   resultType: string;
   resultTypeArr: string[] | [];
   isLoading: boolean;
+  localLoading: boolean;
   phoneNumber: string;
   amount: number | string;
   charge: number;

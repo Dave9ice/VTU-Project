@@ -27,6 +27,7 @@ const initialState: dataInitialState = {
   amount: "",
   charge: 0,
   isLoading: false,
+  localLoading: false,
   error: "",
 };
 
@@ -84,7 +85,7 @@ export const buyData = createAsyncThunk<
         subcategory_id: subCategoryId,
         provider,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     );
     return resp.data;
   } catch (error) {
@@ -101,7 +102,7 @@ const dataSlice = createSlice({
   reducers: {
     handleChange: <K extends keyof dataInitialState>(
       state: dataInitialState,
-      action: PayloadAction<{ name: K; value: string }>
+      action: PayloadAction<{ name: K; value: string }>,
     ) => {
       const { name, value } = action.payload;
       if (name === "amount") {
@@ -126,10 +127,10 @@ const dataSlice = createSlice({
       .addCase(
         fetchData.fulfilled,
         (state, action: PayloadAction<fetchDataResult[]>) => {
-          (state.isLoading = false),
+          ((state.isLoading = false),
             (state.dataPlans = action.payload[0].plan),
-            (state.subCategoryId = action.payload[0].subcategory_id);
-        }
+            (state.subCategoryId = action.payload[0].subcategory_id));
+        },
       )
       .addCase(fetchData.rejected, (state) => {
         state.isLoading = false;
@@ -141,21 +142,22 @@ const dataSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchDataProvider.fulfilled, (state, action) => {
-        (state.isLoading = false), (state.dataProviderArr = action.payload);
+        ((state.isLoading = false), (state.dataProviderArr = action.payload));
       })
       .addCase(fetchDataProvider.rejected, (state) => {
         state.isLoading = false;
         toast("somthing went wrong");
       })
       .addCase(buyData.pending, (state) => {
-        state.isLoading = true;
+        state.localLoading = true;
       })
       .addCase(buyData.fulfilled, (state) => {
         state.isLoading = false;
         toast("successs");
       })
       .addCase(buyData.rejected, (state, action) => {
-        state.isLoading = false;
+        state.localLoading = false;
+
         toast(action.payload?.msg || "somthing went wrong");
       });
   },

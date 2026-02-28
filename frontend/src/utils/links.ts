@@ -71,11 +71,11 @@ export const electricProvider: { provider: string; percent: number }[] = [
   },
   {
     provider: "JED-Jos Electric",
-    percent: 0.03,
+    percent: 0.01,
   },
   {
     provider: "IBEDC-Ibadan Electric",
-    percent: 0.03,
+    percent: 0,
   },
   {
     provider: "KAEDCO-Kaduna Electric",

@@ -14,7 +14,9 @@ import {
 import type { AppDispatch, RootState } from "@/Store";
 import { ElectricProvider } from "@/utils/links";
 import React, { useEffect } from "react";
+import { FaArrowRotateRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import logo from "../../assets/images/logo-favicon.png";
 
 const ElectricityPage = () => {
   const {
@@ -26,13 +28,15 @@ const ElectricityPage = () => {
     meterNumber,
     verifyResult,
     isLoading,
+    localLoading,
+    verifyLoading,
   } = useSelector((store: RootState) => store.electricity);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleElectricChange = (
     e:
       | React.ChangeEvent<HTMLSelectElement>
-      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLInputElement>,
   ) => {
     const name = e.target.name as keyof electricityInitialState;
     const value = e.target.value;
@@ -51,7 +55,7 @@ const ElectricityPage = () => {
         charge,
         phoneNumber,
         meterNumber,
-      })
+      }),
     );
   };
 
@@ -64,7 +68,13 @@ const ElectricityPage = () => {
   useEffect(() => {
     dispatch(clearState());
   }, []);
-
+  if (isLoading) {
+    return (
+      <section className="grid place-items-center h-screen">
+        <img src={logo} alt="logo" className="animate-bounce" />
+      </section>
+    );
+  }
   return (
     <section className="h-screen py-8 px-4 md:px-8 lg:px-10">
       <PageTitle title="Electricity Bill" text="electricity bill" />
@@ -109,6 +119,7 @@ const ElectricityPage = () => {
             />
             <Button
               type="button"
+              disabled={verifyLoading}
               className="mt-2"
               onClick={() =>
                 dispatch(
@@ -116,11 +127,17 @@ const ElectricityPage = () => {
                     cardno: meterNumber,
                     plan: electricProvider,
                     type: electricProviderType,
-                  })
+                  }),
                 )
               }
             >
-              {isLoading ? "verifying card..." : "verify"}
+              {localLoading ? (
+                <span className="animate-spin">
+                  <FaArrowRotateRight />
+                </span>
+              ) : (
+                "verify"
+              )}
             </Button>
             <p
               className={`${
@@ -133,8 +150,19 @@ const ElectricityPage = () => {
             </p>
           </div>
           <FormRow type="number" name="charge" value={charge} disabled={true} />
-          <Button type="button" onClick={handleBillsPayment}>
-            {isLoading ? "processing" : "process"}
+          <Button
+            type="button"
+            onClick={handleBillsPayment}
+            disabled={isLoading}
+            className="cursor-pointer capitalize"
+          >
+            {localLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "purchase electricity"
+            )}
           </Button>
         </Card>
       </form>

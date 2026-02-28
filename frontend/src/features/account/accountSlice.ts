@@ -13,7 +13,8 @@ import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
 
 export type accountInitialState = {
-  isLoading: Boolean;
+  isLoading: boolean;
+  localLoading: boolean;
   accountNumber: string;
   bankName: string;
   expiresIn: string;
@@ -24,6 +25,7 @@ export type accountInitialState = {
 };
 const accountinitialState: accountInitialState = {
   isLoading: false,
+  localLoading: false,
   accountNumber: "",
   bankName: "",
   expiresIn: "",

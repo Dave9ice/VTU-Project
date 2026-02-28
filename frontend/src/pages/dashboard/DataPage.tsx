@@ -14,7 +14,9 @@ import {
 import type { AppDispatch, RootState } from "@/Store";
 import type { dataInitialState } from "@/utils/types";
 import React, { useEffect } from "react";
+import { FaArrowRotateRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import logo from "../../assets/images/logo-favicon.png";
 
 const DataPage = () => {
   const {
@@ -26,11 +28,11 @@ const DataPage = () => {
     phoneNumber,
     amount,
     subCategoryId,
+    localLoading,
   } = useSelector((store: RootState) => store.data);
-  // console.log(dataPlans);
   const dispatch = useDispatch<AppDispatch>();
   const handleDataChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
   ) => {
     const name = e.target.name as keyof dataInitialState;
     const value = e.target.value;
@@ -39,7 +41,7 @@ const DataPage = () => {
 
   const purchaseData = () => {
     dispatch(
-      buyData({ amount, phoneNumber, subCategoryId, provider, selectedPlan })
+      buyData({ amount, phoneNumber, subCategoryId, provider, selectedPlan }),
     );
   };
 
@@ -54,7 +56,13 @@ const DataPage = () => {
   useEffect(() => {
     dispatch(fetchData(provider));
   }, [provider]);
-
+  if (isLoading) {
+    return (
+      <section className="grid place-items-center h-screen">
+        <img src={logo} alt="logo" className="animate-bounce" />
+      </section>
+    );
+  }
   return (
     <section className=" h-screen py-10 px-4 md:px-8 lg:px-10">
       <PageTitle title="purchase data" text="data" />
@@ -91,8 +99,20 @@ const DataPage = () => {
             handleChange={handleDataChange}
           />
 
-          <Button size="default" type="button" onClick={purchaseData}>
-            purchase
+          <Button
+            size="default"
+            type="button"
+            onClick={purchaseData}
+            disabled={localLoading}
+            className="capitalize"
+          >
+            {localLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "purchase data"
+            )}
           </Button>
         </Card>
       </form>

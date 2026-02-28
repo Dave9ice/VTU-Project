@@ -12,6 +12,7 @@ import { GrStatusGood } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { MdCancel } from "react-icons/md";
+import { FaArrowRotateRight } from "react-icons/fa6";
 
 const VerifyPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -97,7 +98,13 @@ const VerifyPage = () => {
             className="capitalize cursor-pointer"
             onClick={handleSubmit}
           >
-            {isLoading ? "verifying..." : "verify user"}
+            {isLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "verify"
+            )}
           </Button>
         </Card>
       </form>
