@@ -6,6 +6,7 @@ import type { AppDispatch, RootState } from "@/Store";
 import { fetchStats } from "@/features/stats/statSlice";
 import { FaArrowsRotate } from "react-icons/fa6";
 import { IoCheckmarkCircle } from "react-icons/io5";
+import logo from "../../assets/images/logo-favicon.png";
 
 const AdminDashboardPage = () => {
   const {
@@ -14,11 +15,19 @@ const AdminDashboardPage = () => {
     successfulPayment,
     successfulTransaction,
     pendingTransaction,
+    isLoading,
   } = useSelector((store: RootState) => store.stat);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(fetchStats(null));
   }, []);
+  if (isLoading) {
+    return (
+      <section className="grid place-items-center h-screen">
+        <img src={logo} alt="logo" className="animate-bounce" />
+      </section>
+    );
+  }
   return (
     <section className=" py-15 grid md:grid-cols-2 h-screen">
       <AdminDashboardCard icon={<FaUsers />} title="users" amount={userCount} />

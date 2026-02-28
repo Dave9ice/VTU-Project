@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/Store";
 import { logoutUser, toggleSidebar } from "@/features/user/userSlice";
 import { useState } from "react";
+import { FaArrowRotateRight } from "react-icons/fa6";
 
 const DashboardNavber = () => {
   const { user, isLoading } = useSelector((store: RootState) => store.user);
@@ -48,7 +49,13 @@ const DashboardNavber = () => {
             </DropdownMenuItem>
             <DropdownMenuItem>
               <button onClick={logout} className="capitalize">
-                {isLoading ? "logging out" : "logout"}
+                {isLoading ? (
+                  <span className="animate-spin">
+                    <FaArrowRotateRight />
+                  </span>
+                ) : (
+                  "logout"
+                )}
               </button>
             </DropdownMenuItem>
           </DropdownMenuContent>

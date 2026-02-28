@@ -12,15 +12,23 @@ import { fetchTransaction } from "@/features/transaction/transactionSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import logo from "../../assets/images/logo-favicon.png";
 
 const TransactionPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { transactions, status, sort, page } = useSelector(
+  const { transactions, status, sort, page, isLoading } = useSelector(
     (store: RootState) => store.transaction,
   );
   useEffect(() => {
     dispatch(fetchTransaction({ status, sort, page }));
   }, [page]);
+  if (isLoading) {
+    return (
+      <section className="grid place-items-center h-screen">
+        <img src={logo} alt="logo" className="animate-bounce" />
+      </section>
+    );
+  }
   if (transactions.length < 1) {
     return (
       <h2 className="text-3xl text-center capitalize">
