@@ -19,7 +19,7 @@ import ProfilePage from "./pages/dashboard/ProfilePage";
 import ProtectAdminRoute from "./components/ProtectAdminRoute";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
-import TransactionPage from "./pages/admin/TransactionPage";
+import TransactionPage from "./pages/dashboard/TransactionPage";
 import ForgottenPasswordEmailVerification from "./pages/ForgottenPasswordEmailVerification";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -98,6 +98,7 @@ function App() {
           <Route path="/dashboard/exams" element={<ExamPage />} />
           <Route path="/dashboard/airtime" element={<AirtimePage />} />
           <Route path="/dashboard/profile" element={<ProfilePage />} />
+          <Route path="/dashboard/transactions" element={<TransactionPage />} />
         </Route>
         {/* ADMIN ROUTES */}
         <Route

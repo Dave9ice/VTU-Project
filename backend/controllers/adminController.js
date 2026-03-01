@@ -13,12 +13,16 @@ export const getUsersNo = async (req, res) => {
   const successfulPayment = (
     await Transaction.find({ status: "Successful", provider: "flutterwave" })
   ).length;
+  const expirePayment = (
+    await Transaction.find({ status: "Expired", provider: "flutterwave" })
+  ).length;
   res.status(StatusCodes.OK).json({
     userCount,
     transactionCount,
     pendingTransaction,
     successfulTransaction,
     successfulPayment,
+    expirePayment,
   });
 };
 

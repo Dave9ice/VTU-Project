@@ -42,6 +42,7 @@ export const getAirtimeProvider = createAsyncThunk<
     const resp = await axios.get(`${url}/api/v1/airtime`, {
       withCredentials: true,
     });
+    console.log(resp.data.airtime);
     return resp.data.airtime;
   } catch (error) {
     if (isAxiosError(error)) {
@@ -127,18 +128,20 @@ export const airtimeSlice = createSlice({
         state.serverResponse = action.payload;
         state.providerArr = action.payload.map((item) => item.title);
       })
-      .addCase(getAirtimeProvider.rejected, () => {
+      .addCase(getAirtimeProvider.rejected, (state) => {
+        state.isloading = false;
+
         toast("somthing went wrong fetching");
       })
       .addCase(purchaseAirtime.pending, (state) => {
-        state.isloading = true;
+        state.localLoading = true;
       })
       .addCase(purchaseAirtime.fulfilled, (state) => {
-        state.isloading = false;
+        state.localLoading = false;
         toast("airtime bought succesfully");
       })
       .addCase(purchaseAirtime.rejected, (state, action) => {
-        state.isloading = false;
+        state.localLoading = false;
         toast(action.payload?.msg || "cant purchase data please try again");
       });
   },

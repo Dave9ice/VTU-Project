@@ -34,7 +34,7 @@ const AdminForm = () => {
         />
         <FormSelect
           handleChange={handleSelectChange}
-          lists={["Successful", "Pending"]}
+          lists={["Successful", "Pending", "Expired"]}
           name="status"
           value={status}
           placeholder="status"

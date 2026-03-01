@@ -122,6 +122,7 @@ export type statsResult = {
   pendingTransaction: number;
   successfulTransaction: number;
   successfulPayment: number;
+  expirePayment: number;
 };
 export type transactionsResult = {
   trx_id: string;

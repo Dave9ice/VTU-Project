@@ -7,6 +7,7 @@ import { fetchStats } from "@/features/stats/statSlice";
 import { FaArrowsRotate } from "react-icons/fa6";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import logo from "../../assets/images/logo-favicon.png";
+import { MdCancel } from "react-icons/md";
 
 const AdminDashboardPage = () => {
   const {
@@ -16,6 +17,7 @@ const AdminDashboardPage = () => {
     successfulTransaction,
     pendingTransaction,
     isLoading,
+    expirePayment,
   } = useSelector((store: RootState) => store.stat);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
@@ -50,6 +52,11 @@ const AdminDashboardPage = () => {
         icon={<IoCheckmarkCircle />}
         title="successful payment"
         amount={successfulPayment}
+      />
+      <AdminDashboardCard
+        icon={<MdCancel />}
+        title="expire payment"
+        amount={expirePayment}
       />
     </section>
   );

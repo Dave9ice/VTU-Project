@@ -31,7 +31,7 @@ const Dashboard = () => {
         <DashboardCard
           title="transactions"
           text="transaction history"
-          href="/dashboard/transctions"
+          href="/dashboard/transactions"
           icon={<TbHistory />}
         />
       </div>

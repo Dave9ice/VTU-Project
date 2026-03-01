@@ -154,6 +154,8 @@ const purchaseAirtime = async (req, res) => {
   const { amount, charge, phonenumber, subcategory_id, ported, provider } =
     req.body;
   const userID = req.user.userID;
+  console.log(phonenumber);
+  console.log(typeof phonenumber);
   if (!amount || !charge || !phonenumber || !subcategory_id || !provider) {
     throw new BadRequestError("please provide all fields");
   }

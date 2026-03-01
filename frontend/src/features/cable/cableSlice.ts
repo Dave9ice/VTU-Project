@@ -185,13 +185,13 @@ const cableSlice = createSlice({
         toast(action.payload?.msg);
       })
       .addCase(cablePayment.pending, (state) => {
-        state.isLoading = true;
+        state.localLoading = true;
       })
       .addCase(cablePayment.fulfilled, (state) => {
-        state.isLoading = false;
+        state.localLoading = false;
       })
       .addCase(cablePayment.rejected, (state, action) => {
-        state.isLoading = false;
+        state.localLoading = false;
         toast(action.payload?.msg);
       });
   },

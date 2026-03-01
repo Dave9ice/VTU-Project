@@ -13,6 +13,7 @@ type statInitialStateType = {
   pendingTransaction: number;
   successfulTransaction: number;
   successfulPayment: number;
+  expirePayment: number;
 };
 const statInitialState: statInitialStateType = {
   isLoading: false,
@@ -21,6 +22,7 @@ const statInitialState: statInitialStateType = {
   pendingTransaction: 0,
   successfulTransaction: 0,
   successfulPayment: 0,
+  expirePayment: 0,
 };
 
 export const fetchStats = createAsyncThunk<
@@ -60,6 +62,7 @@ const statSlice = createSlice({
           (state.transactionCount = action.payload.transactionCount),
           (state.successfulTransaction =
             action.payload.successfulTransaction)));
+        state.expirePayment = action.payload.expirePayment;
       })
       .addCase(fetchStats.rejected, (state) => {
         ((state.isLoading = false),

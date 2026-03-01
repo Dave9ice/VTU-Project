@@ -1,6 +1,7 @@
 import "express-async-errors";
 import express from "express";
 import { startFlutterwavePolling } from "./jobs/flutterwavepolling.js";
+import { startExpirePendingTransactions } from "./jobs/expirestransaction.js";
 import getDataRouter from "./routes/dataRoutes.js";
 import authRouter from "./routes/authRoutes.js";
 import cableRouter from "./routes/cableRoutes.js";
@@ -78,6 +79,7 @@ const connectDB = async () => {
   try {
     await connect(process.env.MONGO_URL);
     startFlutterwavePolling();
+    startExpirePendingTransactions();
 
     app.listen(5000, () => console.log(`app listenning on port ${port}...`));
   } catch (error) {
