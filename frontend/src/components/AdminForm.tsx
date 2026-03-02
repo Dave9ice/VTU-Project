@@ -8,6 +8,7 @@ import {
   type TXinitialStateType,
 } from "@/features/transaction/transactionSlice";
 import { Button } from "./ui/button";
+import { Card } from "./ui/card";
 
 const AdminForm = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,7 +25,7 @@ const AdminForm = () => {
   };
   return (
     <form className="bg-secondary rounded-md">
-      <div className="flex justify-between items-center">
+      <Card className="flex flex-row justify-between items-center px-4 py-2">
         <FormSelect
           handleChange={handleSelectChange}
           lists={["latest", "oldest"]}
@@ -46,7 +47,7 @@ const AdminForm = () => {
         >
           {isLoading ? "searching..." : "search"}
         </Button>
-      </div>
+      </Card>
     </form>
   );
 };

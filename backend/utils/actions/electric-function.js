@@ -32,12 +32,12 @@ export const verifyMeterNoFn = async ({ cardno, plan, type }) => {
         // console.log(resp.data);
         return retryResp.data;
       } else {
-        console.log(error);
-        throw new Error(error);
+        console.error("Error Verifying Meter No:", error);
+        throw new Error("INTERNAL SERVER ERROR");
       }
     } else {
-      console.log(error);
-      throw new Error(error);
+      console.error("Error Verifying Meter No:", error);
+      throw new Error("INTERNAL SERVER ERROR");
     }
   }
 };
@@ -62,12 +62,12 @@ export const fetchelectricPlan = async (provider) => {
         // console.log(resp.data);
         return retryResp.data;
       } else {
-        console.log(error);
-        throw new Error(error);
+        console.error("Error Fetching Electricity Plan:", error);
+        throw new Error("INTERNAL SERVER ERROR");
       }
     } else {
-      console.log(error);
-      throw new Error(error);
+      console.error("Error Fetching Electricity Plan:", error);
+      throw new Error("INTERNAL SERVER ERROR");
     }
   }
 };
@@ -118,12 +118,13 @@ export const buyElectricity = async ({
         // console.log(resp.data);
         return retryResp.data;
       } else {
-        console.log(error);
-        throw new Error(error);
+        console.error("Error Buying Electricity:", error);
+
+        throw new Error("INTERNAL SERVER ERROR");
       }
     } else {
-      console.log(error);
-      throw new Error(error);
+      console.error("Error Buying Electricity:", error);
+      throw new Error("INTERNAL SERVER ERROR");
     }
   }
 };
@@ -138,6 +139,8 @@ export const fetchElectricityFn = async (req, res) => {
     );
     return resp.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error Fetching Electricity:", error);
+
+    throw new Error("INTERNAL SERVER ERROR: unable to fetch elctricity plans");
   }
 };

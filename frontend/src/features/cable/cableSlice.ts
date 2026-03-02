@@ -171,6 +171,9 @@ const cableSlice = createSlice({
           state.cableResult = action.payload;
         },
       )
+      .addCase(fetchCable.rejected, (state) => {
+        state.isLoading = false;
+      })
       .addCase(verifyCableCard.pending, (state) => {
         state.verifyLoading = true;
       })
@@ -182,7 +185,9 @@ const cableSlice = createSlice({
       .addCase(verifyCableCard.rejected, (state, action) => {
         state.verifyLoading = false;
         state.verifyResult = action.payload?.msg;
-        toast(action.payload?.msg);
+        toast(
+          action.payload?.msg || "unable to verify cable No..please try again",
+        );
       })
       .addCase(cablePayment.pending, (state) => {
         state.localLoading = true;
@@ -192,7 +197,9 @@ const cableSlice = createSlice({
       })
       .addCase(cablePayment.rejected, (state, action) => {
         state.localLoading = false;
-        toast(action.payload?.msg);
+        toast(
+          action.payload?.msg || "unable to pay cable bill..please try again",
+        );
       });
   },
 });

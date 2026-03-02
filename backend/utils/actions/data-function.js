@@ -28,11 +28,11 @@ export const fetchPlugingData = async () => {
         );
         return retryResp.data || [];
       } else {
-        console.log("error fetching pluging data:", error);
+        console.error("error fetching pluging data:", error);
         throw new Error("internal server error");
       }
     } else {
-      console.log("error fetching pluging data:", error);
+      console.error("error fetching pluging data:", error);
       throw new Error("internal server error");
     }
   }
@@ -66,11 +66,11 @@ export const purchaseDataFn = async ({
         );
         return retryResp.data;
       } else {
-        console.log("error purchasing data:", error);
+        console.error("error purchasing data:", error);
         throw new Error("internal server error");
       }
     } else {
-      console.log("error purchasing data:", error);
+      console.error("error purchasing data:", error);
       throw new Error("internal server error");
     }
   }

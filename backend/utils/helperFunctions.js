@@ -21,7 +21,7 @@ export const networakPrefixes = {
     "0913",
     "0916",
   ],
-  Airtel: [
+  AIRTEL: [
     "0802",
     "0808",
     "0708",

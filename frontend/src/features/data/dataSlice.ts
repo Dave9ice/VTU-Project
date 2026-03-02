@@ -144,9 +144,9 @@ const dataSlice = createSlice({
       .addCase(fetchDataProvider.fulfilled, (state, action) => {
         ((state.isLoading = false), (state.dataProviderArr = action.payload));
       })
-      .addCase(fetchDataProvider.rejected, (state) => {
+      .addCase(fetchDataProvider.rejected, (state, action) => {
         state.isLoading = false;
-        toast("somthing went wrong");
+        toast(action.payload?.msg || "somthing went wrong");
       })
       .addCase(buyData.pending, (state) => {
         state.localLoading = true;

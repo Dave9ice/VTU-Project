@@ -29,12 +29,12 @@ export const fetchPlunginCable = async (cable) => {
         );
         return retryResp.data;
       } else {
-        console.log(error);
-        throw new Error(error);
+        console.error("Error Fetching Cable:", error);
+        throw new Error("INTERNAl SERVER ERROR");
       }
     } else {
-      console.log(error);
-      throw new Error(error);
+      console.error("Error Fetching Cable:", error);
+      throw new Error("INTERNAl SERVER ERROR");
     }
   }
 };
@@ -68,12 +68,12 @@ export const verifyCableCardFn = async ({ cable, cableNumber }) => {
         // console.log(resp.data);
         return retryResp.data;
       } else {
-        console.log(error);
-        throw new Error(error);
+        console.error("Error Verifying Cable No:", error);
+        throw new Error("INTERNAl SERVER ERROR");
       }
     } else {
-      console.log(error);
-      throw new Error(error);
+      console.error("Error Verifying Cable No:", error);
+      throw new Error("INTERNAl SERVER ERROR");
     }
   }
 };
@@ -113,12 +113,12 @@ export const purchaseCableFn = async ({
         // console.log(resp.data);
         return retryResp.data;
       } else {
-        console.log(error);
-        throw new Error(error);
+        console.error("Error Purchasing Cable:", error);
+        throw new Error("INTERNAl SERVER ERROR");
       }
     } else {
-      console.log(error);
-      throw new Error(error);
+      console.error("Error Purchasing Cable:", error);
+      throw new Error("INTERNAl SERVER ERROR");
     }
   }
 };

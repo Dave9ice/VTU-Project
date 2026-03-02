@@ -32,7 +32,7 @@ const DashboardSideBar = () => {
           <MdCancel className="h-10 w-10" />
         </Button>
       </header>
-      <main className=" grid bg-secondary">
+      <main className=" grid bg-secondary z-20">
         <div className="bg-transparent transform transition-transform duration-150   justify-start py-4 text-gray-600 border-b-2 capitalize hover:underline hover:translate-x-1.5 hover:text-gray-400 p-4">
           <Link to="/dashboard" className="flex gap-4 items-center ">
             <FaTachometerAlt />
@@ -55,6 +55,10 @@ const DashboardSideBar = () => {
         />
         <DashboardLink
           text="electricity"
+          icon={<FaDroplet className="text-primary text-2xl" />}
+        />
+        <DashboardLink
+          text="transactions"
           icon={<FaDroplet className="text-primary text-2xl" />}
         />
         <DashboardLink

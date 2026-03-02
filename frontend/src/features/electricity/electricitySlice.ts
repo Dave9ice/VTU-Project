@@ -130,16 +130,16 @@ const electricitySlice = createSlice({
       .addCase(verifyMeterNo.rejected, (state, action) => {
         state.verifyLoading = false;
         state.verifyResult = action.payload?.msg;
-        toast(action.payload?.msg);
+        toast("could not verify meter number");
       })
       .addCase(payElectricBills.pending, (state) => {
-        state.isLoading = true;
+        state.localLoading = true;
       })
       .addCase(payElectricBills.fulfilled, (state) => {
-        state.isLoading = false;
+        state.localLoading = false;
       })
       .addCase(payElectricBills.rejected, (state, action) => {
-        state.isLoading = false;
+        state.localLoading = false;
         toast(action.payload?.msg || "something went wrong");
       });
   },

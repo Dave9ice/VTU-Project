@@ -37,7 +37,7 @@ const ExamPage = () => {
   if (isLoading) {
     return (
       <section className="grid place-items-center h-screen">
-        <img src={logo} alt="logo" className="animate-bounce" />
+        <img src={logo} alt="logo" className="animate-ping" />
       </section>
     );
   }

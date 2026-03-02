@@ -24,7 +24,6 @@ const purchaseData = async (req, res) => {
   }
   const newProvider = provider.split(" ")[0];
   const newPlan = plan.split("-")[0];
-
   const network = detectNetwork(phoneNumber);
   if (newProvider !== network) {
     throw new BadRequestError(
@@ -154,14 +153,13 @@ const purchaseAirtime = async (req, res) => {
   const { amount, charge, phonenumber, subcategory_id, ported, provider } =
     req.body;
   const userID = req.user.userID;
-  console.log(phonenumber);
-  console.log(typeof phonenumber);
   if (!amount || !charge || !phonenumber || !subcategory_id || !provider) {
     throw new BadRequestError("please provide all fields");
   }
   const custom_reference = "TXN" + Date.now();
   const network = detectNetwork(phonenumber);
-  if (provider !== network) {
+  const newProvider = provider.toUpperCase();
+  if (newProvider !== network) {
     throw new BadRequestError(`${phonenumber} is not an/a ${provider} number`);
   }
   await verifyBalanceWithDb({ userID, amount: charge });

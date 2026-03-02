@@ -32,7 +32,7 @@ export const getUserTransaction = async (req, res) => {
     queryObject.status = status;
   }
   let result = Transaction.find(queryObject).select(
-    "amount transactionReference  status  createdAt channel -_id",
+    "amount transactionReference  status type description  createdAt channel -_id",
   );
   if (sort === "latest") {
     result = result.sort("-createdAt");

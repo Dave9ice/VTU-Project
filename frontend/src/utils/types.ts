@@ -132,4 +132,6 @@ export type transactionsResult = {
   verifiedvia: string | null;
   createdAt: string;
   paymentMethod: string;
+  description: string;
+  type: string;
 };

@@ -38,12 +38,17 @@ const TransactionPage = () => {
   }
   return (
     <section className="md:px-6 py-8">
+      <h2 className="text-center capitalize mb-4 font-bold md:text-2xl">
+        transaction history
+      </h2>
       {/* Form */}
       <AdminForm />
       <Table className="mt-4">
         <TableHeader>
           <TableRow className="capitalize text-lg font-bold">
             <TableHead>transaction ID</TableHead>
+            <TableHead>type</TableHead>
+            <TableHead>description</TableHead>
             <TableHead>status</TableHead>
             <TableHead>created At</TableHead>
             <TableHead>payment method</TableHead>
@@ -52,13 +57,23 @@ const TransactionPage = () => {
         </TableHeader>
         <TableBody>
           {transactions.map((item) => {
-            const { status, amount, trx_id, createdAt, paymentMethod } = item;
+            const {
+              status,
+              amount,
+              trx_id,
+              createdAt,
+              paymentMethod,
+              type,
+              description,
+            } = item;
             return (
               <TableRow
                 key={createdAt}
                 className={`${status === "Pending" ? "bg-red-500" : "bg-green-500"}`}
               >
                 <TableCell>{trx_id}</TableCell>
+                <TableCell>{type}</TableCell>
+                <TableCell>{description}</TableCell>
                 <TableCell>{status}</TableCell>
                 <TableCell>{createdAt}</TableCell>
                 <TableCell>{paymentMethod}</TableCell>
