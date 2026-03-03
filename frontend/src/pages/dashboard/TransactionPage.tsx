@@ -67,14 +67,15 @@ const TransactionPage = () => {
               description,
             } = item;
             return (
-              <TableRow
-                key={createdAt}
-                className={`${status === "Pending" ? "bg-red-500" : "bg-green-500"}`}
-              >
+              <TableRow key={createdAt}>
                 <TableCell>{trx_id}</TableCell>
                 <TableCell>{type}</TableCell>
                 <TableCell>{description}</TableCell>
-                <TableCell>{status}</TableCell>
+                <TableCell
+                  className={`${status === "Pending" ? "bg-red-500" : "bg-green-500"}`}
+                >
+                  {status}
+                </TableCell>
                 <TableCell>{createdAt}</TableCell>
                 <TableCell>{paymentMethod}</TableCell>
                 <TableCell>{amount}</TableCell>
