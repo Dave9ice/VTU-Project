@@ -45,7 +45,7 @@ const VerifyPage = () => {
             <GrStatusGood />
           </span>
           <p className="capitalize font-bold">{succesMsg}</p>
-          <Button asChild>
+          <Button asChild className="mt-6">
             <Link to={"/login"} className="capitalize">
               back to login
             </Link>
