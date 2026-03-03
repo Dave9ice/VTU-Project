@@ -13,6 +13,7 @@ import {
 import { GrStatusGood } from "react-icons/gr";
 import { useEffect } from "react";
 import { FaArrowRotateRight } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const ForgotPasswordPage = () => {
   const { email, isLoading, succesMsg } = useSelector(
@@ -35,6 +36,9 @@ const ForgotPasswordPage = () => {
             <GrStatusGood />
           </span>
           <p className="capitalize font-bold">{succesMsg}</p>
+          <Button className="capitalize cursor-pointer">
+            <Link to={`/login`}>back to login</Link>
+          </Button>
         </div>
       </section>
     );

@@ -75,8 +75,14 @@ const VerifyPage = () => {
   return (
     <main className="bg-secondary h-screen grid place-items-center">
       <form className="w-full max-w-2xl px-4">
-        <Card className="px-4">
-          <h2 className="text-2xl text-center">verify user</h2>
+        <Card className="px-4 gap-3">
+          <h2 className="text-2xl text-center  capitalize">
+            let verify your email
+          </h2>
+          <h3 className="text-xs text-center text-destructive">
+            kindly enter the four digit number sent to your email to verify your
+            account
+          </h3>
           <div className="grid capitalize">
             <label>email</label>
             <input

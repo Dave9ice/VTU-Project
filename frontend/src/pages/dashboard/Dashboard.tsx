@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { TbHistory } from "react-icons/tb";
 import { FiPhoneCall } from "react-icons/fi";
 import { FaWifi, FaLaptop } from "react-icons/fa";
-import { FaDroplet } from "react-icons/fa6";
+import { FaArrowRotateRight, FaDroplet } from "react-icons/fa6";
 import { TfiWrite } from "react-icons/tfi";
 
 import DashboardModal from "@/components/DashboardModal";
@@ -11,7 +11,7 @@ import DashboardModal from "@/components/DashboardModal";
 import { useGetUserProfileQuery } from "@/features/polling/apiSlice";
 
 const Dashboard = () => {
-  const { data } = useGetUserProfileQuery();
+  const { data, isLoading } = useGetUserProfileQuery();
   return (
     <section className="py-8 px-4">
       <header className="capitalize flex flex-col md:flex-row md:justify-between mb-8">
@@ -22,7 +22,16 @@ const Dashboard = () => {
         <Card className="flex flex-row justify-between items-center capitalize">
           <CardHeader>
             <h1>balance</h1>
-            <p>{data?.user.wallet || 0}</p>
+            <p>
+              {" "}
+              {isLoading ? (
+                <span className="animate-spin">
+                  <FaArrowRotateRight />
+                </span>
+              ) : (
+                data?.user.wallet || 0
+              )}
+            </p>
           </CardHeader>
           <CardContent>
             <DashboardModal />

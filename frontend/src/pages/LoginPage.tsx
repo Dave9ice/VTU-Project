@@ -1,12 +1,12 @@
 import FormRow from "@/components/FormRow";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardTitle } from "@/components/ui/card";
 import { clearState, loginUser } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import favicon from "../assets/images/logo-favicon.png";
+// import favicon from "../assets/images/logo-favicon.png";
 import { toast } from "sonner";
 import { FaArrowRotateRight } from "react-icons/fa6";
 
@@ -50,11 +50,10 @@ const LoginPage = () => {
   return (
     <section className="grid place-items-center h-screen bg-secondary">
       <form className="w-4/5 max-w-3xl" onSubmit={handleSubmit}>
-        <Card className="p-8">
-          <h2 className="text-center capitalize sm:text-2xl md:text-3xl flex gap-4 justify-center items-center">
-            <img src={favicon} alt="logo" />
-            login
-          </h2>
+        <Card className="p-8 gap-0">
+          <CardTitle className="text-center capitalize text-2xl md:text-3xl text-gray-950">
+            Hello! Welcome back
+          </CardTitle>
           <p className="bg-destructive">{registermsg}</p>
           <FormRow
             type="email"
@@ -69,7 +68,7 @@ const LoginPage = () => {
             value={values.password}
             handleChange={handleChange}
           />
-          <Button className="capitalize" disabled={isLoading}>
+          <Button className="capitalize mt-4" disabled={isLoading}>
             {isLoading ? (
               <span className="animate-spin">
                 <FaArrowRotateRight />

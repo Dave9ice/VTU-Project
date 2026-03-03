@@ -8,7 +8,7 @@ import {
 import type { AppDispatch, RootState } from "@/Store";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { type userInitialState } from "@/utils/types";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -23,6 +23,7 @@ const ForgottenPasswordEmailVerification = () => {
     (store: RootState) => store.user,
   );
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const token = searchParams.get("token") as string;
   const email = searchParams.get("email") as string;
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +47,13 @@ const ForgottenPasswordEmailVerification = () => {
   useEffect(() => {
     dispatch(clearState());
   }, []);
+  useEffect(() => {
+    if (succesMsg) {
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    }
+  }, [succesMsg]);
   if (succesMsg) {
     <section className="h-screen grid place-items-center bg-secondary">
       <div className="grid">

@@ -13,6 +13,7 @@ import type { AppDispatch, RootState } from "@/Store";
 import { logoutUser, toggleSidebar } from "@/features/user/userSlice";
 import { useState } from "react";
 import { FaArrowRotateRight } from "react-icons/fa6";
+// import logo from "../assets/images/logo-favicon.png";
 
 const DashboardNavber = () => {
   const { user, isLoading } = useSelector((store: RootState) => store.user);
@@ -22,6 +23,7 @@ const DashboardNavber = () => {
   const logout = () => {
     dispatch(logoutUser({}));
   };
+
   return (
     <nav
       className={` h-15 bg-primary transform transition-transform duration-300`}
@@ -48,7 +50,7 @@ const DashboardNavber = () => {
               <Link to="/dashboard/profile">profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <button onClick={logout} className="capitalize">
+              <button onClick={logout} className="capitalize cursor-pointer">
                 {isLoading ? (
                   <span className="animate-spin">
                     <FaArrowRotateRight />
