@@ -63,7 +63,7 @@ const DashboardModal = () => {
             <button>fund wallet</button>
           </DialogTitle>
         </DialogHeader>
-        <section>
+        {/* <section>
           <header className="flex">
             <div className=" flex items-center gap-3 capitalize">
               <button
@@ -93,7 +93,7 @@ const DashboardModal = () => {
               onChange={(e) => setCardAmount(e.target.value)}
             />
           </div>
-        </section>
+        </section> */}
         <section>
           <header className="flex">
             <div className="flex items-center gap-3 capitalize">
