@@ -24,7 +24,7 @@ const DashboardModal = () => {
     toggleCard: false,
     toggleBank: false,
   });
-  const [cardAmount, setCardAmount] = useState("");
+  const [cardAmount, _setCardAmount] = useState("");
   const { amount, isLoading } = useSelector(
     (store: RootState) => store.account,
   ) as {
