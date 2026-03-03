@@ -63,7 +63,7 @@ const VerifyPage = () => {
             <MdCancel />
           </span>
           <p className="capitalize font-bold">{errorMsg}</p>
-          <Button asChild>
+          <Button asChild className="mt-6">
             <Link to={"/register"} className="capitalize">
               go back to register
             </Link>

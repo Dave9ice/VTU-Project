@@ -53,14 +53,14 @@ const RegisterPage = () => {
     dispatch(
       registerUser({ firstName, lastName, email, password, phoneNumber }),
     );
-    return setVaues({
-      firstName: "",
-      lastName: "",
-      password: "",
-      verifyPassword: "",
-      email: "",
-      phoneNumber: "",
-    });
+    // return setVaues({
+    //   firstName: "",
+    //   lastName: "",
+    //   password: "",
+    //   verifyPassword: "",
+    //   email: "",
+    //   phoneNumber: "",
+    // });
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
