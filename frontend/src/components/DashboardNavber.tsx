@@ -7,23 +7,31 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/Store";
 import { logoutUser, toggleSidebar } from "@/features/user/userSlice";
 import { useState } from "react";
 import { FaArrowRotateRight } from "react-icons/fa6";
-// import logo from "../assets/images/logo-favicon.png";
+import logo from "../assets/images/logo-favicon.png";
 
 const DashboardNavber = () => {
   const { user, isLoading } = useSelector((store: RootState) => store.user);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const logout = () => {
     dispatch(logoutUser({}));
+    navigate("/");
   };
-
+  if (isLoading) {
+    return (
+      <section className="grid place-items-center h-screen">
+        <img src={logo} alt="logo" className="animate-ping" />
+      </section>
+    );
+  }
   return (
     <nav
       className={` h-15 bg-primary transform transition-transform duration-300`}

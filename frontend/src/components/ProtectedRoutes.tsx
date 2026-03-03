@@ -8,9 +8,7 @@ const INACTIVITY_TIME = 15 * 60 * 1000;
 const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
   const { user } = useSelector((state: RootState) => state.user);
   //   console.log(user);
-  if (!user) {
-    return <Navigate to="/" />;
-  }
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -46,6 +44,9 @@ const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
       events.forEach((event) => window.removeEventListener(event, resetTimer));
     };
   }, [handleLogout, user]);
+  if (!user) {
+    return <Navigate to="/" />;
+  }
   return children;
 };
 
