@@ -10,6 +10,8 @@ export type User = {
 export type userInitialState = {
   user: User | null;
   isLoading: boolean;
+  verifyLoading: boolean;
+  otpCodeSent: string;
   showSideBar: boolean;
   succesMsg: string;
   errorMsg: string;

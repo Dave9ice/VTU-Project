@@ -30,3 +30,21 @@ export const useCountdown = (
 
   return timeLeft;
 };
+
+export const useTimer = (initialSeconds = 180) => {
+  const [seconds, setSeconds] = useState(initialSeconds);
+
+  useEffect(() => {
+    if (seconds <= 0) return;
+    const interval = setInterval(() => setSeconds((s) => s - 1), 1000);
+    return () => clearInterval(interval);
+  }, [seconds]);
+
+  const restartTimer = () => setSeconds(initialSeconds);
+
+  const formattedTime = `${Math.floor(seconds / 60)}:${(seconds % 60)
+    .toString()
+    .padStart(2, "0")}`;
+
+  return { seconds, formattedTime, restartTimer };
+};

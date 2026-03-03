@@ -193,6 +193,28 @@ const getUserProfile = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: newUser });
 };
 
+// REQUEST OTP
+const requestOtp = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    throw new BadRequestError("please provide email address");
+  }
+  const user = await User.findOne({ email });
+  if (user.isVerified) {
+    throw new BadRequestError("email address has already been verify");
+  }
+  const verifiedToken = `${Math.floor(Math.random() * 10000)}`.padStart(4, "0");
+  user.verifiedToken = verifiedToken;
+  await user.save();
+  await sendVerificationMail({
+    firstName: user.firstName,
+    email: user.email,
+    verifiedToken: user.verifiedToken,
+  });
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "otp code has been sent successfully" });
+};
 // LOGOUT USER
 const logOutUser = (req, res) => {
   res.clearCookie("token", {
@@ -212,4 +234,5 @@ export {
   forgotPassword,
   resetPassword,
   getUserProfile,
+  requestOtp,
 };

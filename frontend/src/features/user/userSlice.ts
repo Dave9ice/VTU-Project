@@ -25,7 +25,9 @@ export type ApiError = {
 const initialState: userInitialState = {
   user: getUserFromLocalStorage(),
   isLoading: false,
+  verifyLoading: false,
   showSideBar: false,
+  otpCodeSent: "",
   succesMsg: "",
   errorMsg: "",
   password: "",
@@ -149,6 +151,25 @@ export const resetPassword = createAsyncThunk<
     const resp = await axios.post(
       `${url}/api/v1/auth/password-reset`,
       { password: data.password, newPassword: data.newPassword },
+      { withCredentials: true },
+    );
+    return resp.data.msg;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return thunkApi.rejectWithValue(error.response?.data);
+    }
+    console.log(error);
+  }
+});
+export const requestOtp = createAsyncThunk<
+  string,
+  { email: string },
+  { state: RootState; rejectValue: ApiError }
+>("request-otp", async (data, thunkApi) => {
+  try {
+    const resp = await axios.post(
+      `${url}/api/v1/auth/request-otp`,
+      { email: data.email },
       { withCredentials: true },
     );
     return resp.data.msg;
@@ -300,6 +321,18 @@ const userSlice = createSlice({
       .addCase(forgotPassword.rejected, (state, action) => {
         ((state.isLoading = false),
           toast(action.payload?.msg || "somethinge went wrong"));
+      })
+      .addCase(requestOtp.pending, (state) => {
+        state.verifyLoading = true;
+      })
+      .addCase(requestOtp.fulfilled, (state, action) => {
+        state.verifyLoading = false;
+        state.otpCodeSent = action.payload;
+        toast(action.payload || "check you email for otp");
+      })
+      .addCase(requestOtp.rejected, (state, action) => {
+        state.verifyLoading = false;
+        toast(action.payload?.msg || "something went wrong please try again");
       });
   },
 });

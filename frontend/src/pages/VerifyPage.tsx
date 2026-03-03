@@ -1,7 +1,11 @@
 import FormRow from "@/components/FormRow";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { handleChange, verifyUser } from "@/features/user/userSlice";
+import {
+  handleChange,
+  requestOtp,
+  verifyUser,
+} from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import type { userInitialState } from "@/utils/types";
 import { Link, useLocation } from "react-router-dom";
@@ -13,18 +17,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { MdCancel } from "react-icons/md";
 import { FaArrowRotateRight } from "react-icons/fa6";
+import { useEffect } from "react";
+import { useTimer } from "@/hooks/countdown";
 
 const VerifyPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   const email = location.state?.email;
-  const { succesMsg, isLoading, otp, errorMsg } = useSelector(
-    (store: RootState) => store.user,
-  );
+  const { succesMsg, isLoading, otp, errorMsg, verifyLoading, otpCodeSent } =
+    useSelector((store: RootState) => store.user);
+  const { seconds, formattedTime, restartTimer } = useTimer(180);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name as keyof userInitialState;
     const value = e.target.value;
     dispatch(handleChange({ name, value }));
+  };
+  const requestOtpFn = () => {
+    dispatch(requestOtp({ email }));
   };
   const handleSubmit = () => {
     if (!otp || otp === "") {
@@ -33,9 +42,9 @@ const VerifyPage = () => {
 
     dispatch(verifyUser({ token: otp, email }));
   };
-  // useEffect(() => {
-  //   dispatch(clearState());
-  // }, []);
+  useEffect(() => {
+    restartTimer();
+  }, [otpCodeSent]);
 
   if (succesMsg) {
     return (
@@ -75,7 +84,7 @@ const VerifyPage = () => {
   return (
     <main className="bg-secondary h-screen grid place-items-center">
       <form className="w-full max-w-2xl px-4">
-        <Card className="px-4 gap-3">
+        <Card className="px-4 gap-3 relative">
           <h2 className="text-2xl text-center  capitalize">
             let verify your email
           </h2>
@@ -83,6 +92,7 @@ const VerifyPage = () => {
             kindly enter the four digit number sent to your email to verify your
             account
           </h3>
+          <h2 className="absolute top-4 right-4">{formattedTime}</h2>
           <div className="grid capitalize">
             <label>email</label>
             <input
@@ -110,6 +120,19 @@ const VerifyPage = () => {
               </span>
             ) : (
               "verify"
+            )}
+          </Button>
+          <Button
+            onClick={requestOtpFn}
+            className="mt-2 bg-destructive"
+            disabled={verifyLoading || seconds > 0}
+          >
+            {verifyLoading ? (
+              <span className="animate-spin">
+                <FaArrowRotateRight />
+              </span>
+            ) : (
+              "i did not receive otp"
             )}
           </Button>
         </Card>
