@@ -1,4 +1,3 @@
-import FormRow from "@/components/FormRow";
 import { Button } from "@/components/ui/button";
 import {
   clearState,
@@ -15,6 +14,7 @@ import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { GrStatusGood } from "react-icons/gr";
 import { FaArrowRotateRight } from "react-icons/fa6";
+import { Eye, EyeOff } from "lucide-react";
 
 const ForgottenPasswordEmailVerification = () => {
   const [searchParams, _setSearchParams] = useSearchParams();
@@ -22,6 +22,8 @@ const ForgottenPasswordEmailVerification = () => {
   const { password, succesMsg, isLoading } = useSelector(
     (store: RootState) => store.user,
   );
+  const [showPassword, setShowPassword] = useState(false);
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const token = searchParams.get("token") as string;
@@ -68,23 +70,45 @@ const ForgottenPasswordEmailVerification = () => {
     <section className="h-screen place-items-center bg-secondary grid px-4">
       <Card className="w-full max-w-2xl p-4">
         <form>
-          <FormRow
-            name="password"
-            type="password"
-            value={password}
-            label="change password"
-            handleChange={handleInputChange}
-          />
-          <div>
+          <div className="grid gap-y-2.5">
             <label htmlFor="password" className="capitalize">
-              confirm password
+              password
             </label>
-            <Input
-              type="password"
-              value={confirmPassword}
-              name="password"
-              onChange={confirmPasswordChange}
-            />
+            <div className="flex">
+              <Input
+                type={`${showPassword ? "text" : "password"}`}
+                value={password}
+                name="password"
+                placeholder="password"
+                onChange={handleInputChange}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <Eye /> : <EyeOff />}
+              </button>
+            </div>
+          </div>
+          <div className="grid gap-y-2.5">
+            <label htmlFor="password" className="capitalize">
+              password
+            </label>
+            <div className="flex">
+              <Input
+                type={`${showPassword ? "text" : "password"}`}
+                value={confirmPassword}
+                name="password"
+                placeholder="password"
+                onChange={confirmPasswordChange}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <Eye /> : <EyeOff />}
+              </button>
+            </div>
           </div>
           <Button
             disabled={isLoading}

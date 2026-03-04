@@ -9,6 +9,8 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 // import favicon from "../assets/images/logo-favicon.png";
 import { toast } from "sonner";
 import { FaArrowRotateRight } from "react-icons/fa6";
+import { Input } from "@/components/ui/input";
+import { Eye, EyeOff } from "lucide-react";
 
 type loginState = {
   email: string;
@@ -17,6 +19,7 @@ type loginState = {
 
 const LoginPage = () => {
   const [values, setValues] = useState<loginState>({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const [searchParams, _setSearchParams] = useSearchParams();
 
   const registermsg = searchParams.get("msg");
@@ -62,12 +65,26 @@ const LoginPage = () => {
             value={values.email}
             handleChange={handleChange}
           />
-          <FormRow
-            type="password"
-            name="password"
-            value={values.password}
-            handleChange={handleChange}
-          />
+          <div className="grid gap-y-2.5">
+            <label htmlFor="password" className="capitalize">
+              password
+            </label>
+            <div className="flex">
+              <Input
+                type={`${showPassword ? "text" : "password"}`}
+                value={values.password}
+                name="password"
+                placeholder="password"
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <Eye /> : <EyeOff />}
+              </button>
+            </div>
+          </div>
           <Button className="capitalize mt-4" disabled={isLoading}>
             {isLoading ? (
               <span className="animate-spin">

@@ -1,6 +1,7 @@
 import FormRow from "@/components/FormRow";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { clearState, registerUser } from "@/features/user/userSlice";
 import type { AppDispatch, RootState } from "@/Store";
 import React, { useEffect, useState } from "react";
@@ -8,6 +9,7 @@ import { FaArrowRotateRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
 
 type registerValues = {
   firstName: string;
@@ -32,6 +34,8 @@ const RegisterPage = () => {
   const { isLoading, succesMsg, email } = useSelector(
     (store: RootState) => store.user,
   );
+  const [showPassword, setShowPassword] = useState(false);
+
   // console.log(succesMsg, email);
   const registerFn = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -117,19 +121,46 @@ const RegisterPage = () => {
             value={values.phoneNumber}
             handleChange={handleChange}
           />
-          <FormRow
-            name="password"
-            type="password"
-            value={values.password}
-            handleChange={handleChange}
-          />
-          <FormRow
-            name="verifyPassword"
-            type="password"
-            label="verify password"
-            value={values.verifyPassword}
-            handleChange={handleChange}
-          />
+          <div className="grid gap-y-2.5">
+            <label htmlFor="password" className="capitalize">
+              password
+            </label>
+            <div className="flex">
+              <Input
+                type={`${showPassword ? "text" : "password"}`}
+                value={values.password}
+                name="password"
+                placeholder="password"
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <Eye /> : <EyeOff />}
+              </button>
+            </div>
+          </div>
+          <div className="grid gap-y-2.5">
+            <label htmlFor="password" className="capitalize">
+              confirm password
+            </label>
+            <div className="flex">
+              <Input
+                type={`${showPassword ? "text" : "password"}`}
+                value={values.verifyPassword}
+                name="verifyPassword"
+                placeholder="confirm password"
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <Eye /> : <EyeOff />}
+              </button>
+            </div>
+          </div>
           <Button
             className="capitalize mt-4 cursor-pointer"
             disabled={isLoading}
