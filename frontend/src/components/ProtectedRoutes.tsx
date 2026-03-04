@@ -4,7 +4,7 @@ import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const INACTIVITY_TIME = 15 * 60 * 1000;
+const INACTIVITY_TIME = 1 * 60 * 1000;
 const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
   const { user } = useSelector((state: RootState) => state.user);
   //   console.log(user);
@@ -19,7 +19,7 @@ const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // If not logged in, don't even start the listeners
-    if (!user) return;
+    // if (!user) return;
 
     let timer: NodeJS.Timeout;
 
