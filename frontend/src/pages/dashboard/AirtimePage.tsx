@@ -8,6 +8,7 @@ import {
   completeFields,
   getAirtimeProvider,
   handleChange,
+  handleChecked,
   handlePurpose,
   purchaseAirtime,
   type airtimeInitialState,
@@ -28,8 +29,8 @@ const AirtimePage = () => {
     subcategory_id,
     isloading,
     localLoading,
+    ported,
   } = useSelector((store: RootState) => store.airtime);
-  // console.log(provider);
   const dispatch = useDispatch<AppDispatch>();
   const handleAirtimeChange = (
     e:
@@ -40,7 +41,10 @@ const AirtimePage = () => {
     const value = e.target.value;
     dispatch(handleChange({ name, value }));
   };
-
+  const handleCheckedInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked ? "yes" : "no";
+    dispatch(handleChecked(checked));
+  };
   const handlePayment = () => {
     dispatch(
       purchaseAirtime({
@@ -49,6 +53,7 @@ const AirtimePage = () => {
         subcategory_id,
         phoneNumber,
         provider,
+        ported,
       }),
     );
   };
@@ -97,6 +102,15 @@ const AirtimePage = () => {
             value={phoneNumber}
             handleChange={handleAirtimeChange}
           />
+          {/* CHECKED BOX */}
+          <div className="flex gap-4 capitalize">
+            <h2>is your number ported?</h2>
+            <input
+              checked={ported === "yes"}
+              onChange={handleCheckedInput}
+              type="checkbox"
+            />
+          </div>
           <FormRow
             name="charge"
             type="text"

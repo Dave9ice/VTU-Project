@@ -18,6 +18,7 @@ export type airtimeInitialState = {
   phoneNumber: string;
   providerArr: string[] | [];
   provider: string;
+  ported: string;
   serverResponse: fetchAirtimeResult[] | [];
   subcategory_id: number;
 };
@@ -28,6 +29,7 @@ const initialState: airtimeInitialState = {
   amount: "",
   phoneNumber: "",
   provider: "",
+  ported: "no",
   providerArr: [],
   serverResponse: [],
   subcategory_id: 0,
@@ -57,7 +59,8 @@ export const purchaseAirtime = createAsyncThunk<
   purchaseAirtimeProps,
   { state: RootState; rejectValue: ApiError }
 >("buyairtime", async (data, thunkApi) => {
-  const { amount, phoneNumber, charge, subcategory_id, provider } = data;
+  const { amount, phoneNumber, charge, subcategory_id, provider, ported } =
+    data;
   try {
     const resp = await axios.post(
       `${url}/api/v1/purchase/airtime`,
@@ -67,6 +70,7 @@ export const purchaseAirtime = createAsyncThunk<
         phonenumber: phoneNumber,
         subcategory_id,
         provider,
+        ported,
       },
       { withCredentials: true },
     );
@@ -117,6 +121,9 @@ export const airtimeSlice = createSlice({
       });
       state.subcategory_id = item?.subcategory_id || 0;
     },
+    handleChecked: (state, action: PayloadAction<string>) => {
+      state.ported = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -146,6 +153,11 @@ export const airtimeSlice = createSlice({
       });
   },
 });
-export const { clearState, handleChange, handlePurpose, completeFields } =
-  airtimeSlice.actions;
+export const {
+  clearState,
+  handleChange,
+  handlePurpose,
+  completeFields,
+  handleChecked,
+} = airtimeSlice.actions;
 export default airtimeSlice.reducer;

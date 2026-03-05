@@ -12,13 +12,14 @@ export const purchaseAirtimeFn = async ({
   subcategory_id,
   phonenumber,
   custom_reference,
+  ported,
 }) => {
   const data = await PluginToken.find({});
   const token = data[1].purchasetoken;
   try {
     const resp = await axios.post(
       "https://pluginng.com/api/purchase/airtime",
-      { amount, plan, subcategory_id, phonenumber, custom_reference },
+      { amount, plan, subcategory_id, phonenumber, custom_reference, ported },
       { headers: { Authorization: `Bearer ${token}` } },
     );
     return resp.data;

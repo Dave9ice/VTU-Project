@@ -9,6 +9,7 @@ import {
   fetchData,
   fetchDataProvider,
   handleChange,
+  handleChecked,
   updateDataFields,
 } from "@/features/data/dataSlice";
 import type { AppDispatch, RootState } from "@/Store";
@@ -29,6 +30,7 @@ const DataPage = () => {
     amount,
     subCategoryId,
     localLoading,
+    ported,
   } = useSelector((store: RootState) => store.data);
   const dispatch = useDispatch<AppDispatch>();
   const handleDataChange = (
@@ -38,10 +40,20 @@ const DataPage = () => {
     const value = e.target.value;
     dispatch(handleChange({ name, value }));
   };
-
+  const handleCheckedInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked ? "yes" : "no";
+    dispatch(handleChecked(checked));
+  };
   const purchaseData = () => {
     dispatch(
-      buyData({ amount, phoneNumber, subCategoryId, provider, selectedPlan }),
+      buyData({
+        amount,
+        phoneNumber,
+        subCategoryId,
+        provider,
+        selectedPlan,
+        ported,
+      }),
     );
   };
 
@@ -98,7 +110,15 @@ const DataPage = () => {
             value={phoneNumber}
             handleChange={handleDataChange}
           />
-
+          {/* CHECKED BOX */}
+          <div className="flex gap-4 capitalize">
+            <h2>is your number ported?</h2>
+            <input
+              checked={ported === "yes"}
+              onChange={handleCheckedInput}
+              type="checkbox"
+            />
+          </div>
           <Button
             size="default"
             type="button"

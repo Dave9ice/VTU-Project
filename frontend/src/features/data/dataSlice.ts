@@ -29,6 +29,7 @@ const initialState: dataInitialState = {
   isLoading: false,
   localLoading: false,
   error: "",
+  ported: "no",
 };
 
 export const fetchDataProvider = createAsyncThunk<
@@ -74,7 +75,8 @@ export const buyData = createAsyncThunk<
   buyDataProps,
   { state: RootState; rejectValue: ApiError }
 >("buyData", async (data, thunkApi) => {
-  const { provider, selectedPlan, amount, phoneNumber, subCategoryId } = data;
+  const { provider, selectedPlan, amount, phoneNumber, subCategoryId, ported } =
+    data;
   try {
     const resp = await axios.post(
       `${url}/api/v1/purchase/data`,
@@ -84,6 +86,7 @@ export const buyData = createAsyncThunk<
         plan: selectedPlan,
         subcategory_id: subCategoryId,
         provider,
+        ported,
       },
       { withCredentials: true },
     );
@@ -117,6 +120,9 @@ const dataSlice = createSlice({
     },
     clearDataState: (_state: dataInitialState) => {
       return initialState;
+    },
+    handleChecked: (state, action: PayloadAction<string>) => {
+      state.ported = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -163,6 +169,6 @@ const dataSlice = createSlice({
   },
 });
 
-export const { handleChange, clearDataState, updateDataFields } =
+export const { handleChange, clearDataState, updateDataFields, handleChecked } =
   dataSlice.actions;
 export default dataSlice.reducer;

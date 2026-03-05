@@ -43,6 +43,7 @@ export type dataInitialState = {
   amount: number | string;
   charge: number;
   error: string;
+  ported: string;
 };
 
 export type buyDataProps = {
@@ -51,6 +52,7 @@ export type buyDataProps = {
   provider: string;
   selectedPlan: string;
   subCategoryId: number;
+  ported: string;
 };
 export type fetchDataResult = {
   category: string;
@@ -97,6 +99,7 @@ export type purchaseAirtimeProps = {
   charge: number;
   phoneNumber: string;
   provider: string;
+  ported: string;
 };
 
 export type verifyUserProps = {

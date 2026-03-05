@@ -8,6 +8,7 @@ import { FaPercent } from "react-icons/fa";
 import { MdSupportAgent } from "react-icons/md";
 import ProcessSection from "@/components/ProcessSection";
 import ServiceSection from "@/components/ServiceSection";
+// import image from "../assets/images/data.jpg";
 const HomePage = () => {
   return (
     <>

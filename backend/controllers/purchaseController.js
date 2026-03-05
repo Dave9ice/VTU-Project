@@ -18,6 +18,7 @@ import { StatusCodes } from "http-status-codes";
 const purchaseData = async (req, res) => {
   const { amount, phoneNumber, plan, subcategory_id, ported, provider } =
     req.body;
+  console.log(req.body);
   const userID = req.user.userID;
   if (!amount || !phoneNumber || !plan || !subcategory_id || !provider) {
     throw new BadRequestError("please provide all fields");
@@ -25,12 +26,9 @@ const purchaseData = async (req, res) => {
   const newProvider = provider.split(" ")[0];
   const newPlan = plan.split("-")[0];
   const network = detectNetwork(phoneNumber);
-  if (newProvider !== network) {
-    throw new BadRequestError(
-      `${phoneNumber} is not an/a ${newProvider} number`,
-    );
+  if (ported === "no" && newProvider !== network) {
+    throw new BadRequestError(`${phoneNumber} is not an/a ${provider} number`);
   }
-
   const custom_reference = "TXN" + Date.now();
   await verifyBalanceWithDb({ amount, userID });
   const result = await purchaseDataFn({
@@ -38,6 +36,7 @@ const purchaseData = async (req, res) => {
     phonenumber: phoneNumber,
     subcategory_id,
     custom_reference,
+    ported,
   });
 
   const user = await updateWallletBalance({ userID, amount });
@@ -92,7 +91,7 @@ const purchaseElectricity = async (req, res) => {
     custom_reference,
   });
 
-  console.log(result);
+  // console.log(result);
 
   const user = await updateWallletBalance({ userID, amount: charge });
   await createTransationInDB({
@@ -150,6 +149,7 @@ const purchaseCable = async (req, res) => {
 };
 
 const purchaseAirtime = async (req, res) => {
+  console.log(req.body);
   const { amount, charge, phonenumber, subcategory_id, ported, provider } =
     req.body;
   const userID = req.user.userID;
@@ -159,7 +159,7 @@ const purchaseAirtime = async (req, res) => {
   const custom_reference = "TXN" + Date.now();
   const network = detectNetwork(phonenumber);
   const newProvider = provider.toUpperCase();
-  if (newProvider !== network) {
+  if (ported === "no" && newProvider !== network) {
     throw new BadRequestError(`${phonenumber} is not an/a ${provider} number`);
   }
   await verifyBalanceWithDb({ userID, amount: charge });
@@ -168,6 +168,7 @@ const purchaseAirtime = async (req, res) => {
     subcategory_id,
     phonenumber,
     custom_reference,
+    ported,
   });
 
   const user = await updateWallletBalance({ userID, amount: charge });

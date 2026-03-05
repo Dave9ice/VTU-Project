@@ -43,13 +43,14 @@ export const purchaseDataFn = async ({
   phonenumber,
   subcategory_id,
   custom_reference,
+  ported,
 }) => {
   const data = await plugingToken.find({});
   const token = data[1].purchasetoken;
   try {
     const resp = await axios.post(
       "https://pluginng.com/api/purchase/data",
-      { plan_id, phonenumber, subcategory_id, custom_reference },
+      { plan_id, phonenumber, subcategory_id, custom_reference, ported },
       { headers: { Authorization: `Bearer ${token}` } },
     );
     return resp.data;
