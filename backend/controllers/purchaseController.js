@@ -7,7 +7,6 @@ import {
   updateWallletBalance,
   verifyBalanceWithDb,
 } from "../utils/helperFunctions.js";
-// import user from "../models/user.js";
 import User from "../models/user.js";
 import { buyElectricity } from "../utils/actions/electric-function.js";
 import { purchaseCableFn } from "../utils/actions/cable-function.js";
