@@ -158,7 +158,7 @@ const dataSlice = createSlice({
         state.localLoading = true;
       })
       .addCase(buyData.fulfilled, (state) => {
-        state.isLoading = false;
+        state.localLoading = false;
         toast("successs");
       })
       .addCase(buyData.rejected, (state, action) => {

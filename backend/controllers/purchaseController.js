@@ -18,7 +18,6 @@ import { StatusCodes } from "http-status-codes";
 const purchaseData = async (req, res) => {
   const { amount, phoneNumber, plan, subcategory_id, ported, provider } =
     req.body;
-  console.log(req.body);
   const userID = req.user.userID;
   if (!amount || !phoneNumber || !plan || !subcategory_id || !provider) {
     throw new BadRequestError("please provide all fields");
@@ -38,7 +37,6 @@ const purchaseData = async (req, res) => {
     custom_reference,
     ported,
   });
-
   const user = await updateWallletBalance({ userID, amount });
   // console.log(result);
   await createTransationInDB({
@@ -50,7 +48,7 @@ const purchaseData = async (req, res) => {
     user: userID,
     description: result.data,
   });
-  res.send(StatusCodes.OK).json({ msg: result.data });
+  res.status(StatusCodes.OK).json({ msg: result.data });
 };
 
 const purchaseElectricity = async (req, res) => {
@@ -105,7 +103,7 @@ const purchaseElectricity = async (req, res) => {
     description: result.data,
   });
   console.log(result);
-  res.send(StatusCodes.OK).json({ msg: result.data });
+  res.status(StatusCodes.OK).json({ msg: result.data });
 };
 
 const purchaseCable = async (req, res) => {
@@ -145,11 +143,10 @@ const purchaseCable = async (req, res) => {
     description: result.data,
   });
 
-  res.staus(StatusCodes.OK).json({ msg: result.data });
+  res.status(StatusCodes.OK).json({ msg: result.data });
 };
 
 const purchaseAirtime = async (req, res) => {
-  console.log(req.body);
   const { amount, charge, phonenumber, subcategory_id, ported, provider } =
     req.body;
   const userID = req.user.userID;
@@ -181,7 +178,7 @@ const purchaseAirtime = async (req, res) => {
     balance: user.wallet,
     description: result.data,
   });
-  console.log(result);
+  // console.log(result);
   res.status(StatusCodes.OK).json({ msg: result.data });
 };
 export { purchaseData, purchaseElectricity, purchaseCable, purchaseAirtime };
