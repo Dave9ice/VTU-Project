@@ -34,6 +34,7 @@ const initialState: userInitialState = {
   email: "",
   newPassword: "",
   otp: "",
+  status: "idle",
 };
 
 export const loginUser = createAsyncThunk<
@@ -229,6 +230,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state: userInitialState, action) => {
         state.isLoading = false;
+        state.status = "active";
         state.user = action.payload;
         toast(`welcome back ${action.payload.firstName}`);
         setUserToLocalStorage(action.payload);

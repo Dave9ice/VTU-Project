@@ -19,6 +19,7 @@ export type userInitialState = {
   email: string;
   newPassword: string;
   otp: string;
+  status: string;
 };
 
 export type fetchCableResult = {

@@ -25,7 +25,9 @@ const LoginPage = () => {
   const registermsg = searchParams.get("msg");
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { isLoading, user } = useSelector((store: RootState) => store.user);
+  const { isLoading, user, status } = useSelector(
+    (store: RootState) => store.user,
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
@@ -44,12 +46,13 @@ const LoginPage = () => {
     dispatch(clearState());
   }, []);
   useEffect(() => {
-    if (user) {
-      setTimeout(() => {
+    if (user && status === "active") {
+      const timer = setTimeout(() => {
         navigate("/dashboard");
       }, 3000);
+      return () => clearTimeout(timer);
     }
-  }, [user]);
+  }, [user, status]);
   return (
     <section className="grid place-items-center h-screen bg-secondary">
       <form className="w-4/5 max-w-3xl" onSubmit={handleSubmit}>
