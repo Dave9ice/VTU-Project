@@ -13,7 +13,6 @@ import {
   sendForgotPasswordMail,
   sendVerificationMail,
 } from "../utils/helperFunctions.js";
-import { STATUS_CODES } from "http";
 // REGISTER USER
 const registerUser = async (req, res) => {
   const { password, firstName, lastName, email, phoneNumber } = req.body;
@@ -221,6 +220,7 @@ const logOutUser = (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     signed: true,
+    path: "/",
   });
   res.status(StatusCodes.OK).json({ msg: "logged out successfully" });
 };
