@@ -79,7 +79,7 @@ const HomePage = () => {
             <Card className="grid px-8 py-8">
               <MdSupportAgent className="text-7xl justify-self-center rounded-full border-10 border-secondary text-white bg-primary p-2 " />
               <CardContent className="text-gray-700 grid gap-4">
-                <h2 className="capitalize text-primary">247/7 suport</h2>
+                <h2 className="capitalize text-primary">24/7 suport</h2>
                 <p>
                   We guarantee our customers top notch services all time. Hence,
                   we are always respond to your needs.

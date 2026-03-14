@@ -45,6 +45,7 @@ const purchaseData = async (req, res) => {
     transactionReference: custom_reference,
     balance: user.wallet,
     user: userID,
+    status: "Successful",
     description: result.data,
   });
   res.status(StatusCodes.OK).json({ msg: result.data });
@@ -100,6 +101,7 @@ const purchaseElectricity = async (req, res) => {
     balance: user.wallet,
     transactionReference: custom_reference,
     description: result.data,
+    status: "Successful",
   });
   console.log(result);
   res.status(StatusCodes.OK).json({ msg: result.data });
@@ -139,6 +141,7 @@ const purchaseCable = async (req, res) => {
     transactionReference: custom_reference,
     user: userID,
     type: "Cable Subscription",
+    status: "Successful",
     description: result.data,
   });
 
@@ -175,6 +178,7 @@ const purchaseAirtime = async (req, res) => {
     type: "Airtime Purchase",
     transactionReference: custom_reference,
     balance: user.wallet,
+    status: "Successful",
     description: result.data,
   });
   // console.log(result);

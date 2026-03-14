@@ -3,7 +3,7 @@ import FormSelect from "./FormSelect";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/Store";
 import {
-  fetchTransaction,
+  fetchUserTransaction,
   handleChange,
   type TXinitialStateType,
 } from "@/features/transaction/transactionSlice";
@@ -43,7 +43,7 @@ const AdminForm = () => {
         <Button
           className=""
           type="button"
-          onClick={() => dispatch(fetchTransaction({ status, sort }))}
+          onClick={() => dispatch(fetchUserTransaction({ status, sort }))}
         >
           {isLoading ? "searching..." : "search"}
         </Button>
